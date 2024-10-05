@@ -1,10 +1,10 @@
-import db from '../db/connection';
-import type { UserPayload, VerifyTokenPayload } from '../types/register';
+import db from '../../db/connection';
+import type { UserPayload, VerifyTokenPayload } from '../../types/register';
 import * as yup from 'yup';
-import logger from '../helpers/winston';
-import { generateHashedPassword } from '../helpers/hashPassword';
-import { generateVerificationToken } from '../helpers/verificationToken';
-import { sendMail } from '../helpers/sendMail';
+import logger from '../../helpers/winston';
+import { generateHashedPassword } from '../../helpers/hashPassword';
+import { generateVerificationToken } from '../../helpers/verificationToken';
+import { sendMail } from '../../helpers/sendMail';
 import * as jwt from 'jsonwebtoken';
 
 const userPayloadSchema = yup.object({

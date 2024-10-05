@@ -1,7 +1,9 @@
 import init from './init';
-import register from './register';
+import register from './auth/register';
+import user from './user/index';
 
 export {
     init,
     register,
+    user
 };

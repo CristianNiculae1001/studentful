@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import type { VerifyTokenPayload, UserPayload } from '../types/register';
-import { verifyToken, register as registerService } from '../services/register';
+import type { VerifyTokenPayload, UserPayload } from '../../types/register';
+import { verifyToken, register as registerService } from '../../services/auth/register';
 import cookie from 'cookie';
 
 export const verifyCode = async (req: Request<{}, {}, VerifyTokenPayload>, res: Response) => {
