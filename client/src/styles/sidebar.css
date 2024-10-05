@@ -1,0 +1,308 @@
+.p-menuitem-icon {
+    font-size: 1.53em;
+  }
+  
+  /* retracted menu with TIERED MENU */
+  .sidenav-retracted.p-tieredmenu {
+    position: fixed;
+    top: 120px;
+    left: 0;
+    bottom: 0;
+    padding: 0;
+    border-radius: 0;
+    background-color: #db3d44;
+    border: none;
+    transition: width 0.2s;
+  }
+  
+  /* TIERED MENU - MAIN MENU */
+  
+  .sidenav-retracted.p-tieredmenu .p-menuitem-link .p-menuitem-icon {
+    margin: 0;
+  }
+  
+  /* menu items height */
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem:not(.toggle-button) > a {
+      height: 50px;
+  }
+  /* toggle button height */
+  .sidenav-retracted.p-tieredmenu .toggle-button > a {
+      height: 64px;
+  }
+  
+  /* remove labels  */
+  .sidenav-retracted.p-tieredmenu > ul > .p-menuitem > .p-menuitem-link > .p-menuitem-text {
+    display: none;
+  }
+  
+  /* inherit icon color from main menu entry anchor tag */
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a .p-menuitem-icon,
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a .p-menuitem-icon::before,
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a:hover .p-menuitem-icon,
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a:hover .p-menuitem-icon::before,
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a .p-submenu-icon,
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a .p-submenu-icon::before,
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a:hover .p-submenu-icon,
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a:hover .p-submenu-icon::before{
+    color: inherit;
+  }
+  
+  
+  /* main menu icon and text color */
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a
+  {
+    color: #f9dcddb3;
+  }
+  
+  /* main menu entry when hovered on or active (submenu is expanded) */
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem.p-menuitem-active > a,
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a:hover{
+    background-color: #e76060;
+    color: #fff;
+  }
+  
+  /* a hover exception fro the toggle button */
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem.toggle-button > a:hover{
+    background-color: #db3d44;
+    color: #f9dcddb3;
+  }
+  
+  /* main menu entry when active (make exception for home)*/
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a.route-is-exact-match,
+  .sidenav-retracted.p-tieredmenu ul:not(.p-submenu-list) > .p-menuitem > a.route-is-relative-match:not(.is-home){
+    background-color: #a93232;
+    color: #fff;
+    cursor: default;
+  }
+  
+  
+  /* TIERED MENU - SUBMENUS */
+  
+  /* submenus general style */
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem {
+    font-size: 14px;
+    color: #495057;
+  }
+  
+  /* move submenu arrow away from from the label */
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem > a .p-submenu-icon{
+    margin-left: 5px
+  }
+  
+  /* submenu entry style */
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem > a {
+    padding: 8px 24px;
+  }
+  
+  /* submenus style when exact match with the route */
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem > a.route-is-exact-match {
+    font-weight: bold;
+    color: #db3d44;
+  }
+  
+  /* inherit the submenu font and color props of labels and icons from the anchor tag in all situations*/
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem > a > .p-menuitem-text,
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem > a > .p-submenu-icon,
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem > a > .p-menuitem-icon,
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem > a.route-is-exact-match  > .p-menuitem-text,
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem > a.route-is-exact-match  > .p-submenu-icon,
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem > a.route-is-exact-match  > .p-menuitem-icon {
+    color: inherit;
+  }
+  
+  /* submenu text overflow */
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem .p-menuitem-text {
+    text-wrap: nowrap;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  
+  /* hover effect on non-matched exact route and on active menu entries*/
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem:not(.p-disabled) > a:not(.route-is-exact-match):hover,
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem:not(.p-disabled).p-menuitem-active > a{
+    background-color: #eee;
+  }
+  
+  /* hover effect on item that is exact route match */
+  .sidenav-retracted.p-tieredmenu ul.p-submenu-list .p-menuitem:not(.p-disabled)> a.route-is-exact-match:hover {
+    background-color: #fff;
+    cursor: default;
+  }
+  
+  /* override focus effect and show it only when using the keyboard */
+  .sidenav-retracted.p-tieredmenu .p-menuitem > a:focus{
+    box-shadow: none;
+  }
+  .sidenav-retracted.p-tieredmenu .p-menuitem > a:focus-visible{
+    box-shadow: inset 0 0 0 0.2rem #fec7ce;
+  }
+  
+  
+   /* expanded menu with a PANEL MENU */
+  
+  .sidenav-expanded.p-panelmenu {
+    position: fixed;
+    top: 120px;
+    left: 0;
+    bottom: 0;
+    padding: 0;
+    background-color: #db3d44;
+    border: none;
+    border-radius: 0;
+    transition: width 0.2s;
+  }
+  
+  .sidenav-expanded.p-panelmenu,
+  .sidenav-expanded.p-panelmenu > div {
+    margin: 0;
+  }
+  
+  /* move the submenu icon on the right side */
+  .sidenav-expanded.p-panelmenu .p-panelmenu-icon.pi.pi-fw.pi-angle-down,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-icon.pi.pi-fw.pi-angle-right,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-icon.pi.pi-chevron-down,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-icon.pi.pi-chevron-right{
+    order: 3;
+    margin-left: auto;
+  }
+  
+  /* menu entry text style */
+  .sidenav-expanded.p-panelmenu .p-menuitem-text {
+    font-size: 14px;
+    font-weight: 400;
+    margin-left: 6px;
+  }
+  
+  /* PANEL MENU - MAIN MENU ENTRIES STYLES */
+  
+  .sidenav-expanded.p-panelmenu .toggle-button .p-panelmenu-header > a{
+    height: 64px;
+    font-size: 0.9em;
+  }
+  
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a {
+    height: 50px;
+    background-color: #db3d44;
+    padding: 1rem 1.25rem;
+    border: none;
+    border-radius: 0;
+  }
+  
+  /* main menu entry icons and label inherited styles from the menu entry anchor tag  */
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a .p-menuitem-icon,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a .p-menuitem-icon::before,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a:hover .p-menuitem-icon,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a:hover .p-menuitem-icon::before,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a .p-submenu-icon,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a .p-submenu-icon::before,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a:hover .p-submenu-icon,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a:hover .p-submenu-icon::before,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a .p-menuitem-text,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a:hover .p-menuitem-text{
+    color: inherit;
+  }
+  
+  /* main menu icon and text color */
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a
+  {
+    color: #f9dcddb3;
+  }
+  
+  /* main menu entry when hovered on or active (submenu is expanded) */
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header:not(.p-disabled) > a:hover{
+    background-color: #e76060;
+    color: #fff;
+  }
+  
+  /* main menu entry when submenu is expanded (entry becomes highlighted) or route is a match including hover effect*/
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header.p-highlight > a:hover,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header.p-highlight > a ,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a.route-is-exact-match,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a.route-is-relative-match:not(.is-home)
+  {
+  background-color: #a93232;
+  color: #fff;
+  }
+  
+  /* a hover exception fro the toggle button */
+  .sidenav-expanded.p-panelmenu .toggle-button .p-panelmenu-header >a:hover{
+    background-color: #db3d44;
+    color: #f9dcddb3;
+  }
+  
+  /* PANEL MENU - SUBMENU STYLES */
+  
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content {
+    background-color: #db3d44;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+  }
+  
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content .p-submenu-list > li:first-child {
+    margin-top: 0.5rem;
+  }
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content .p-submenu-list > li:last-child {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* submenu entry icons and label inherited styles from the menu entry anchor tag  */
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a .p-menuitem-icon,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a .p-menuitem-icon::before,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a:hover .p-menuitem-icon,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a:hover .p-menuitem-icon::before,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a .p-submenu-icon,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a .p-submenu-icon::before,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a:hover .p-submenu-icon,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a:hover .p-submenu-icon::before,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a .p-menuitem-text,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a:hover .p-menuitem-text{
+    color: inherit;
+    font-weight: inherit;
+  }
+  
+  /* submenu icon and text color */
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a
+  {
+    color: #f9dcddb3;
+  }
+  
+  /* submenu entry when hovered on or active (submenu is expanded) */
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a:hover {
+    background-color: #e76060;
+    color: #fff;
+  }
+  
+  /* submenu entry when route is exact match including hover effect*/
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a.route-is-exact-match {
+  font-weight: bold;
+  color: #fff;
+  }
+  
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a {
+    position: relative;
+  }
+  
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content ul.p-submenu-list > .p-menuitem > a.route-is-exact-match::before {
+    content: "";
+    width: 2px;
+    height: 20px;
+    left: 5px;
+    position: absolute;
+    border-left: 2px #fff solid;
+  }
+  
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content .p-submenu-list .p-menuitem > a{
+    padding: 0.375rem 0.5rem;
+  }
+  
+  /* override focus effect and show it only when using the keyboard */
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a:focus,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content .p-submenu-list .p-menuitem > a:focus{
+    box-shadow: none;
+  }
+  .sidenav-expanded.p-panelmenu .p-panelmenu-header > a:focus-visible,
+  .sidenav-expanded.p-panelmenu .p-panelmenu-content .p-submenu-list .p-menuitem > a:focus-visible{
+    box-shadow: inset 0 0 0 0.2rem #fec7ce;
+  }
