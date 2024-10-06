@@ -18,36 +18,33 @@ import Homepage from './pages/Homepage';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Nav from './components/static/Navbar';
-import useAuth from './hooks/useAuth';
 import Auth from './components/static/Auth';
+import { useSelector } from 'react-redux';
+import { RootState } from './store';
 
 function App() {   
   const { isOpen, onToggle } = useDisclosure({
     defaultIsOpen: true,
   })
-  const {user} = useAuth();
-  
-  if(!user) {
-    return (
-      <>
-        <Routes>
-            <Route path={'/'} element={
-              <Auth>
-                <Homepage />
-              </Auth>
-              } />            
-          </Routes>
-          <Routes>
-            <Route path={'/register'} element={<Register />} />            
-         </Routes>
-         <Routes>
-           <Route path={'/login'} element={<Login />} />            
-        </Routes>
-     </>
-    );
-  }
+  const user = useSelector((state: RootState) => state.user.data);
 
   return (
+    <>
+      {
+        user === null ?
+        <AppShell
+      >
+          <Routes>
+              <Route path={'/'} element={
+                <Auth>
+                  <Homepage />
+                </Auth>
+                } />            
+              <Route path={'/register'} element={<Register />} />            
+             <Route path={'/login'} element={<Login />} />            
+       </Routes>
+      </AppShell>
+      :
       <AppShell
       sidebar={
         <SidebarComp
@@ -87,19 +84,19 @@ function App() {
         </SidebarComp>
       }
     >
-        <Nav />
-        <Route path={'/'} element={
+        <Nav />     
+        <Routes>
+            <Route path={'/'} element={
               <Auth>
                 <Homepage />
               </Auth>
-              } />     
-         <Routes>
-           <Route path={'/register'} element={<Register />} />            
-         </Routes>
-         <Routes>
+              } />            
+            <Route path={'/register'} element={<Register />} />            
            <Route path={'/login'} element={<Login />} />            
-         </Routes>
+     </Routes>
     </AppShell>
+      }
+    </>
   )
 }
 

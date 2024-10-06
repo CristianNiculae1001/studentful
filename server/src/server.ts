@@ -10,7 +10,18 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
-app.use(cors());
+const corsOptions = {
+    // set origin to a specific origin.
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    
+    // or, set origin to true to reflect the request origin
+    //origin: true,
+  
+    credentials: true,
+    optionsSuccessStatus: 200,
+  };
+  
+app.use(cors(corsOptions));
 app.use(morgan('dev'));
 
 app.use(express.urlencoded({extended: false}));
