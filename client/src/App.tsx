@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Spacer, IconButton, Image, useDisclosure } from '@chakra-ui/react'
 import {
   AppShell,
@@ -10,23 +10,35 @@ import {
 } from '@saas-ui/react'
 import {
   FiHome,
-  FiStar,
   FiChevronsLeft,
   FiChevronsRight,
 } from 'react-icons/fi'
 import Homepage from './pages/Homepage';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
+import Register from './pages/Register';
+import Login from './pages/Login';
 import Nav from './components/static/Navbar';
 import Auth from './components/static/Auth';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
+import { useEffect } from 'react';
+import useWindowDimensions from './hooks/useWindowDimensions';
+import { GrCatalogOption } from 'react-icons/gr';
+import Catalog from './pages/Catalog';
 
 function App() {   
-  const { isOpen, onToggle } = useDisclosure({
+  const { isOpen, onToggle, onClose } = useDisclosure({
     defaultIsOpen: true,
   })
   const user = useSelector((state: RootState) => state.user.data);
+
+  const navigate = useNavigate();
+  const { width } = useWindowDimensions();
+
+  useEffect(() => {
+    if(width < 774) {
+      onClose();
+    }
+  }, [width]);
 
   return (
     <>
@@ -34,15 +46,20 @@ function App() {
         user === null ?
         <AppShell
       >
-          <Routes>
+          <Routes>       
               <Route path={'/'} element={
-                <Auth>
-                  <Homepage />
-                </Auth>
-                } />            
-              <Route path={'/register'} element={<Register />} />            
-             <Route path={'/login'} element={<Login />} />            
-       </Routes>
+              <Auth>
+                <Homepage />
+              </Auth>
+              } />
+              <Route path={'/catalog'} element={
+              <Auth>
+                <Catalog />
+              </Auth>
+              } />      
+            <Route path={'/register'} element={<Register />} />            
+            <Route path={'/login'} element={<Login />} />            
+          </Routes>
       </AppShell>
       :
       <AppShell
@@ -63,21 +80,31 @@ function App() {
               display={isOpen ? 'block' : 'none'}
             />
             <Spacer />
-            <IconButton
-              onClick={onToggle}
-              variant="ghost"
-              size="sm"
-              icon={isOpen ? <FiChevronsLeft /> : <FiChevronsRight />}
-              aria-label="Toggle Sidebar"
-            />
+            {
+              width < 772 ?
+                <>
+                </>
+                :
+                <IconButton
+                  onClick={onToggle}
+                  variant="ghost"
+                  size="sm"
+                  icon={isOpen ? <FiChevronsLeft /> : <FiChevronsRight />}
+                  aria-label="Toggle Sidebar"
+                />
+            }
           </SidebarSection>
 
           <SidebarSection flex="1" overflowY="auto" overflowX="hidden">
             <NavGroup>
-              <NavItem icon={<FiHome />}>
-                All users
+              <NavItem icon={<FiHome />} onClick={() => {
+                navigate('/');
+              }}>
+                Homepage
               </NavItem>
-              <NavItem icon={<FiStar />}>Favourite users</NavItem>
+              <NavItem icon={<GrCatalogOption />} onClick={() => {
+                navigate('/catalog')
+              }} >Catalog</NavItem>
             </NavGroup>
           </SidebarSection>
           <SidebarOverlay zIndex="1" />
@@ -89,6 +116,11 @@ function App() {
             <Route path={'/'} element={
               <Auth>
                 <Homepage />
+              </Auth>
+              } />
+              <Route path={'/catalog'} element={
+              <Auth>
+                <Catalog />
               </Auth>
               } />            
             <Route path={'/register'} element={<Register />} />            

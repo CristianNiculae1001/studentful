@@ -9,12 +9,19 @@ import {
   Heading,
   useColorModeValue,
   useToast,
+  useDisclosure,
+  Modal,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { login } from '../../api/login';
+import { login } from '../api/login';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { RootState } from '../store';
+import ForgotPassword from '../components/auth/ForgotPassword';
 
 export default function Login() {
 
@@ -23,6 +30,7 @@ export default function Login() {
 
   const toast = useToast();
   const navigate = useNavigate();
+  const forgetPasswordDisclosure = useDisclosure();
 
   const user = useSelector((state: RootState) => state.user.data);
 
@@ -95,7 +103,7 @@ export default function Login() {
                 direction={{ base: 'column', sm: 'row' }}
                 align={'start'}
                 justify={'space-between'}>
-                <Button color={'blue.400'} variant={'link'}>Forgot password?</Button>
+                <Button color={'blue.400'} variant={'link'} onClick={forgetPasswordDisclosure.onOpen}>Forgot password?</Button>
               </Stack>
               <Button
                 bg={'blue.400'}
@@ -110,6 +118,20 @@ export default function Login() {
             </Stack>
           </Stack>
         </Box>
+        <Modal
+        isCentered
+        closeOnOverlayClick={false}
+        isOpen={forgetPasswordDisclosure.isOpen}
+        onClose={forgetPasswordDisclosure.onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Change your password</ModalHeader>
+          <ModalCloseButton />
+          
+          <ForgotPassword onClose={forgetPasswordDisclosure.onClose} />
+        </ModalContent>
+      </Modal>
       </Stack>
     </Flex>
   )

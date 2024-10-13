@@ -90,7 +90,6 @@ import Avatar from 'boring-avatars';
                     </Center>
                     <br />
                     <MenuDivider />
-                    <MenuItem>Your Servers</MenuItem>
                     <MenuItem>Account Settings</MenuItem>
                     <MenuItem onClick={() => {
                       sessionStorage.removeItem('auth');

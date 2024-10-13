@@ -4,6 +4,8 @@ import logger from '../../helpers/winston';
 import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import type { LoginPayload } from '../../types/login';
+import { sendMail } from '../../helpers/sendMail';
+import crypto from 'crypto';
 
 const loginPayloadSchema = yup.object({
     email: yup.string().email().required(),
@@ -33,6 +35,31 @@ export async function login(payload: LoginPayload) {
         return {
             status: 1,
             token,
+        };
+    } catch(error) {
+        logger.error(error);
+        return {
+            status: 0,
+            message: error,
+        }
+    }
+}
+
+export async function forgotPassword(email: string) {
+    try {
+        const userByEmail = await db.table('users').select('id', 'email', 'password').where({email, active: true});
+        if(userByEmail.length === 0) {
+            return {
+                status: 0,
+                message: 'Email or password are incorrect',
+            }
+        }
+        const extension = crypto.randomBytes(64).toString('hex');
+        const URL = `http://localhost:5173/change-password/${extension}${userByEmail[0]?.id}`;
+        const response = await sendMail({subject: 'Password Change', text: `Click this link to reset your password: ${URL}`, email});
+        return {
+            status: 1,
+            message: 'Email has been sent, check your email and follow the next steps.',
         };
     } catch(error) {
         logger.error(error);
