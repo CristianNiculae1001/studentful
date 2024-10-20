@@ -1,0 +1,7 @@
+.exportCSVLink {
+    transition: background-color 0.25s ease;
+}
+
+.exportCSVLink:hover {
+    background: rgba(63, 195, 128, 0.2);
+}

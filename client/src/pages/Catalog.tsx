@@ -1,6 +1,7 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react"
 import CatalogComponent from "../components/catalog/Catalog"
 import Calculator from "../components/catalog/Calculator"
+import '../styles/catalog.css';
 
 function Catalog() {
   return (
