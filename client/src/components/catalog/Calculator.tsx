@@ -129,7 +129,7 @@ function Calculator() {
         }
         </Box>
 
-        <Box className="meanContainer" border={`1px solid ${borderColorValue}`} borderRadius={'8px'} bg={bgColorValue} w={'fit-content'} m={'0 auto'} mt={'1rem'} p={'1rem'} textAlign={'center'}>
+        <Box className="meanContainer" border={`1px solid ${borderColorValue}`} borderRadius={'8px'} bg={bgColorValue} mt={'1rem'} p={'1rem'} textAlign={'center'} display={'flex'} alignItems={'center'} justifyContent={'space-between'} gap={'1rem'} flexWrap={'wrap'}>
             <Box as={'span'} fontSize={24} fontWeight={300}>
               Media:
             </Box>
