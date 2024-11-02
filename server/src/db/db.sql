@@ -9,3 +9,51 @@ CREATE TABLE users (
     active BOOLEAN DEFAULT false,
     created_at TIMESTAMP NOT NULL DEFAULT NOW() 
 );
+
+-- Catalog Data JSON Structure
+
+-- {
+--     "an": {
+--         "sem1": [
+--             {
+--                 name: "Materia 1",
+--                 note: [4,5,6],
+--                 credite: 4,
+--             },
+--             {
+--                 name: "Materia 2",
+--                 note: [7,8,9],
+--                 credite: null
+--             },
+--             {
+--                 name: "Materia 3",
+--                 note: [6, 9, 4],
+--                 credite: 5
+--             }
+--         ],
+--         "sem2": [
+--             {
+--                 name: "Materia 1",
+--                 note: [4,5,6],
+--                 credite: 4,
+--             },
+--             {
+--                 name: "Materia 2",
+--                 note: [7,8,9],
+--                 credite: null
+--             },
+--             {
+--                 name: "Materia 3",
+--                 note: [6, 9, 4],
+--                 credite: 5
+--             }
+--         ],
+--     }
+-- }
+
+CREATE TABLE catalog (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) NOT NULL,
+    data JSONB NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);

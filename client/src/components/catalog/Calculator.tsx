@@ -123,7 +123,7 @@ function Calculator() {
             :
             <>
               <Box as={'p'} fontWeight={400} fontSize={18} textAlign={'center'}>
-                Adauga o inregistrare apasand pe butonul de plus!
+                Adauga o inregistrare apasand pe butonul de plus
               </Box>
             </>
         }

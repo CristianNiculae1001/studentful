@@ -30,7 +30,7 @@ function ForgotPassword({onClose}: {onClose: () => void}) {
             isClosable: true,
             duration: 2000,
             position: "top-right",
-          });
+        });
     }
 
     return (
