@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addCatalogData, getCatalogData } from "../../services/catalog";
+import { addCatalogData, getCatalogData, updateCatalogData } from "../../services/catalog";
 
 export const addCatalog = async (req: Request, res: Response) => {
     //@ts-ignore
@@ -9,6 +9,13 @@ export const addCatalog = async (req: Request, res: Response) => {
     res.json(addedCatalogData);
 };
 
+export const updateCatalog = async (req: Request, res: Response) => {
+    //@ts-ignore
+    const user_id = req?.token?.id;
+    const catalog = req?.body;
+    const updatedCatalogData = await updateCatalogData({user_id, catalog});
+    res.json(updatedCatalogData);
+};
 
 export const getCatalog = async (req: Request, res: Response) => {
     //@ts-ignore

@@ -12,44 +12,46 @@ CREATE TABLE users (
 
 -- Catalog Data JSON Structure
 
--- {
---     "an": {
---         "sem1": [
---             {
---                 name: "Materia 1",
---                 note: [4,5,6],
---                 credite: 4,
---             },
---             {
---                 name: "Materia 2",
---                 note: [7,8,9],
---                 credite: null
---             },
---             {
---                 name: "Materia 3",
---                 note: [6, 9, 4],
---                 credite: 5
---             }
---         ],
---         "sem2": [
---             {
---                 name: "Materia 1",
---                 note: [4,5,6],
---                 credite: 4,
---             },
---             {
---                 name: "Materia 2",
---                 note: [7,8,9],
---                 credite: null
---             },
---             {
---                 name: "Materia 3",
---                 note: [6, 9, 4],
---                 credite: 5
---             }
---         ],
+-- [
+--     {
+--         "an": {
+--             "sem1": [
+--                 {
+--                     name: "Materia 1",
+--                     note: [4,5,6],
+--                     credite: 4,
+--                 },
+--                 {
+--                     name: "Materia 2",
+--                     note: [7,8,9],
+--                     credite: null
+--                 },
+--                 {
+--                     name: "Materia 3",
+--                     note: [6, 9, 4],
+--                     credite: 5
+--                 }
+--             ],
+--             "sem2": [
+--                 {
+--                     name: "Materia 1",
+--                     note: [4,5,6],
+--                     credite: 4,
+--                 },
+--                 {
+--                     name: "Materia 2",
+--                     note: [7,8,9],
+--                     credite: null
+--                 },
+--                 {
+--                     name: "Materia 3",
+--                     note: [6, 9, 4],
+--                     credite: 5
+--                 }
+--             ],
+--         }
 --     }
--- }
+-- ]
 
 CREATE TABLE catalog (
     id SERIAL PRIMARY KEY,

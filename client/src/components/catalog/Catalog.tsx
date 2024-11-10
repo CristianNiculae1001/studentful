@@ -27,12 +27,13 @@ function Catalog() {
   });
   // const materii = ['Economie', 'Algebra liniara', 'Analiza Matematica', 'SDD', 'Econometrie', 'Microeconomie', 'Multimedia', 'POO'];
 
+  const [isSuccessful, setIsSuccessful] = useState(false);
+
   const handleAddCatalogData = async () => {
     const catalogData = {
       [anLabel]: {...sem1Data, ...sem2Data} 
     };
     const catalog = await addCatalog(sessionStorage.getItem('auth') ?? '', catalogData);
-    console.log(catalog);
     if(catalog?.status === 0) {
       toast({
         title: 'Error',
@@ -42,6 +43,7 @@ function Catalog() {
         duration: 2000,
         position: "top-right",
       });
+      setIsSuccessful(false);
       return;
     } 
     setAnLabel('');
@@ -54,6 +56,7 @@ function Catalog() {
       duration: 2000,
       position: "top-right",
     });
+    setIsSuccessful(true);
     onClose();
   };
 
@@ -63,7 +66,7 @@ function Catalog() {
         <IconButton icon={<FiPlus />} aria-label="Add Entry" fontSize={16} isRound colorScheme={'blue'} onClick={onOpen} />
       </Box>
 
-      <Table />
+      <Table isSuccessful={isSuccessful} setIsSuccessful={setIsSuccessful} />
 
       <Drawer
         isOpen={isOpen}
@@ -83,7 +86,7 @@ function Catalog() {
               </FormLabel>
               <Input type={'text'} placeholder="Anul 1" onChange={(e) => setAnLabel(e.target.value)} value={anLabel} />
             </FormControl>
-            <Box className="semesterContainer" mt={'1rem'}>
+            <Box className="semesterContainer" mt={'2rem'}>
               <Box display={'flex'} justifyContent={'space-between'} gap={'1rem'}>
                 <Box>
                   Semestrul 1

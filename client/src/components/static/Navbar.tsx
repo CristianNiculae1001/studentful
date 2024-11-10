@@ -76,7 +76,7 @@ import Avatar from 'boring-avatars';
                 
                     <Avatar size={28} name={`${toCapitalize(user?.first_name!)} ${toCapitalize(user?.last_name!)}`} variant='beam' />
                   </MenuButton>
-                  <MenuList alignItems={'center'}>
+                  <MenuList alignItems={'center'} zIndex={9}>
                     <br />
                     <Center>
                       
