@@ -8,8 +8,7 @@ import { CellValueChangedEvent, ColDef, ColGroupDef } from "ag-grid-community";
 import { updateCatalog } from "../../../api/updateCatalog";
 
 function Table({isSuccessful, setIsSuccessful}: {isSuccessful: boolean; setIsSuccessful: React.Dispatch<React.SetStateAction<boolean>>}) {
-    const [catalogData, setCatalogData] = useState<Record<string, unknown>[]>([]);
-
+    // const [catalogData, setCatalogData] = useState<Record<string, unknown>[]>([]);
     const toast = useToast();
     const {colorMode} = useColorMode();
 
@@ -17,7 +16,7 @@ function Table({isSuccessful, setIsSuccessful}: {isSuccessful: boolean; setIsSuc
     const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
     const [rowData, setRowData] = useState<any[]>([]);
     const [columnDefs, _] = useState<(ColDef | ColGroupDef)[]>([
-        { field: "an", headerName: "An" },
+        { field: "an", headerName: "An", editable: false },
         { headerName: "Semestrul 1", children: [
             {
                 field: 'name_1', headerName: 'Materie',
@@ -103,7 +102,7 @@ function Table({isSuccessful, setIsSuccessful}: {isSuccessful: boolean; setIsSuc
 
     const getCatalogData = async () => {
         const response = await getCatalog(sessionStorage.getItem('auth') ?? '');
-        setCatalogData(response);        
+        // setCatalogData(response);        
 
         const data = response?.data[0]?.data?.map((el: Record<string, any>) => {            
             const an = Object.keys(el);
@@ -164,8 +163,8 @@ function Table({isSuccessful, setIsSuccessful}: {isSuccessful: boolean; setIsSuc
 
     const onGridReady = () => {
         document.addEventListener('keydown', (e) => {
-            // stergerea unui rand pe apasarea DELETE sau BACKSPACE
-            if(e.keyCode === 8 || e.keyCode === 46) {
+            // stergerea unui rand pe apasarea DELETE
+            if(e.keyCode === 46) {
                 const sel = gridRef.current?.api && gridRef.current?.api.getSelectedRows();
                 gridRef.current?.api && gridRef.current?.api.applyTransaction({remove: sel});
             }
