@@ -59,3 +59,19 @@ CREATE TABLE catalog (
     data JSONB NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE note (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) NOT NULL,
+    title VARCHAR NOT NULL,
+    tag VARCHAR,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE note_item (
+    id SERIAL PRIMARY KEY,
+    note_id INTEGER REFERENCES note(id) NOT NULL,
+    description VARCHAR NOT NULL,
+    isCompleted BOOLEAN NOT NULL DEFAULT false,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);

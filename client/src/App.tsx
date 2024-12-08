@@ -1,5 +1,5 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { Spacer, IconButton, Image, useDisclosure } from '@chakra-ui/react'
+import { Spacer, IconButton, useDisclosure } from '@chakra-ui/react'
 import {
   AppShell,
   Sidebar as SidebarComp,
@@ -12,7 +12,8 @@ import {
   FiHome,
   FiChevronsLeft,
   FiChevronsRight,
-} from 'react-icons/fi'
+} from 'react-icons/fi';
+import { SlNotebook } from "react-icons/sl";
 import Homepage from './pages/Homepage';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -24,6 +25,7 @@ import { useEffect } from 'react';
 import useWindowDimensions from './hooks/useWindowDimensions';
 import { GrCatalogOption } from 'react-icons/gr';
 import Catalog from './pages/Catalog';
+import Notes from './pages/Notes';
 
 function App() {   
   const { isOpen, onToggle, onClose } = useDisclosure({
@@ -56,6 +58,11 @@ function App() {
               <Auth>
                 <Catalog />
               </Auth>
+              } />  
+              <Route path={'/notes'} element={
+              <Auth>
+                <Notes />
+              </Auth>
               } />      
             <Route path={'/register'} element={<Register />} />            
             <Route path={'/login'} element={<Login />} />            
@@ -63,7 +70,7 @@ function App() {
       </AppShell>
       :
       <AppShell
-      sidebar={
+        sidebar={
         <SidebarComp
           toggleBreakpoint={false}
           variant={isOpen ? 'default' : 'compact'}
@@ -73,12 +80,12 @@ function App() {
           minWidth="auto"
         >
           <SidebarSection direction={isOpen ? 'row' : 'column'}>
-            <Image
-              src="https://saas-ui.dev/favicons/favicon-96x96.png"
+            {/* <Image
+              src={}
               boxSize="6"
               mb="1"
               display={isOpen ? 'block' : 'none'}
-            />
+            /> */}
             <Spacer />
             {
               width < 772 ?
@@ -104,7 +111,10 @@ function App() {
               </NavItem>
               <NavItem icon={<GrCatalogOption />} onClick={() => {
                 navigate('/catalog')
-              }} >Catalog</NavItem>
+              }}>Catalog</NavItem>
+              <NavItem icon={<SlNotebook  />} onClick={() => {
+                navigate('/notes')
+              }}>Notes</NavItem>
             </NavGroup>
           </SidebarSection>
           <SidebarOverlay zIndex="1" />
@@ -123,8 +133,13 @@ function App() {
                 <Catalog />
               </Auth>
               } />            
+              <Route path={'/notes'} element={
+              <Auth>
+                <Notes />
+              </Auth>
+              } />  
             <Route path={'/register'} element={<Register />} />            
-           <Route path={'/login'} element={<Login />} />            
+            <Route path={'/login'} element={<Login />} />            
      </Routes>
     </AppShell>
       }
