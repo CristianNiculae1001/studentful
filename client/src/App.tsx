@@ -26,6 +26,7 @@ import useWindowDimensions from './hooks/useWindowDimensions';
 import { GrCatalogOption } from 'react-icons/gr';
 import Catalog from './pages/Catalog';
 import Notes from './pages/Notes';
+import Note from './pages/Note';
 
 function App() {   
   const { isOpen, onToggle, onClose } = useDisclosure({
@@ -64,6 +65,11 @@ function App() {
                 <Notes />
               </Auth>
               } />      
+              <Route path={'/note/:id'} element={
+              <Auth>
+                <Note />
+              </Auth>
+              } />     
             <Route path={'/register'} element={<Register />} />            
             <Route path={'/login'} element={<Login />} />            
           </Routes>
@@ -138,6 +144,11 @@ function App() {
                 <Notes />
               </Auth>
               } />  
+              <Route path={'/note/:id'} element={
+              <Auth>
+                <Note />
+              </Auth>
+              } />   
             <Route path={'/register'} element={<Register />} />            
             <Route path={'/login'} element={<Login />} />            
      </Routes>

@@ -3,6 +3,7 @@ import register from './auth/register';
 import user from './user/index';
 import login from './auth/login';
 import catalog from './catalog/index';
+import notes from './notes/index';
 
 export {
     init,
@@ -10,4 +11,5 @@ export {
     user,
     login,
     catalog,
+    notes,
 };
