@@ -40,3 +40,50 @@ export const getNotes = async (user_id: string, page: number, limit: number) => 
         };
     }
 };
+
+export const addNoteItem = async (note_id: number, description: string) => {
+    try {
+        const noteItem = await db('note_item').insert({note_id, description}).returning('*');
+        return {
+            status: 1,
+            data: noteItem,
+        };
+    } catch (error) {
+        logger.error(error);
+        return {
+            status: 0,
+            message: error,
+        };
+    }
+};
+
+export const getNoteItemsByNoteId = async (note_id: number) => {
+    try {
+        const noteItems = await db.table('note_item').select('*').where({note_id});
+        return {
+            status: 1,
+            data: noteItems,
+        };
+    } catch (error) {
+        logger.error(error);
+        return {
+            status: 0,
+            message: error,
+        };
+    }
+};
+
+export const deleteNoteItem = async (id: number) => {
+    try {
+        await db.table('note_item').where({id}).del();
+        return {
+            status: 1,
+        };
+    } catch (error) {
+        logger.error(error);
+        return {
+            status: 0,
+            message: error,
+        };
+    }
+};

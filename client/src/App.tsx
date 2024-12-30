@@ -24,6 +24,7 @@ import { RootState } from './store';
 import { useEffect } from 'react';
 import useWindowDimensions from './hooks/useWindowDimensions';
 import { GrCatalogOption } from 'react-icons/gr';
+import { IoIosLink } from "react-icons/io";
 import Catalog from './pages/Catalog';
 import Notes from './pages/Notes';
 import Note from './pages/Note';
@@ -64,7 +65,12 @@ function App() {
               <Auth>
                 <Notes />
               </Auth>
-              } />      
+              } />   
+              <Route path={'/links'} element={
+              <Auth>
+                <Notes />
+              </Auth>
+              } />     
               <Route path={'/note/:id'} element={
               <Auth>
                 <Note />
@@ -120,7 +126,10 @@ function App() {
               }}>Catalog</NavItem>
               <NavItem icon={<SlNotebook  />} onClick={() => {
                 navigate('/notes')
-              }}>Notes</NavItem>
+              }}>Notite</NavItem>
+              <NavItem icon={<IoIosLink  />} onClick={() => {
+                navigate('/links')
+              }}>Link-uri</NavItem>
             </NavGroup>
           </SidebarSection>
           <SidebarOverlay zIndex="1" />
@@ -140,6 +149,11 @@ function App() {
               </Auth>
               } />            
               <Route path={'/notes'} element={
+              <Auth>
+                <Notes />
+              </Auth>
+              } />  
+              <Route path={'/links'} element={
               <Auth>
                 <Notes />
               </Auth>
