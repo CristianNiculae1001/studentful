@@ -1,5 +1,5 @@
 import express from 'express';
-import { getNotesController, addNoteController, addNoteItemController, getNoteItemsByNoteIdController, deleteNoteItemController } from '../../controllers/notes';
+import { getNotesController, addNoteController, addNoteItemController, getNoteItemsByNoteIdController, deleteNoteItemController, deleteNoteController } from '../../controllers/notes';
 import { auth } from '../../middlewares/auth';
 
 const router = express.Router();
@@ -9,5 +9,6 @@ router.post('/notes', auth, addNoteController);
 router.post('/notes/item', auth, addNoteItemController);
 router.get('/notes/items', auth, getNoteItemsByNoteIdController);
 router.delete('/notes/item/:id', auth, deleteNoteItemController);
+router.delete('/notes/:id', auth, deleteNoteController);
 
 export default router;

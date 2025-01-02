@@ -26,7 +26,7 @@ function List() {
                 <Box key={note.id as number} className="noteContainer" p={'0.5rem'} border={'1px solid #ccc'} borderRadius={'2px'} cursor={'pointer'} transition={'all 0.3s ease'} _hover={{transform: 'scale(1.02)', boxShadow: '0 0 10px rgba(0,0,0,0.1)'}} onClick={() => {
                     navigate(`/note/${note.id}`);
                 }}>
-                    <Box className="noteTitle" textAlign={'center'} fontWeight={600} fontSize={'1rem'}>{note.title as string}</Box>
+                    <Box className="noteTitle" textAlign={'center'} fontWeight={600} fontSize={'1rem'}>{note.title as string}</Box>                        
                     {
                         note?.tag ?
                         <Box className="noteTag" textAlign={'right'} fontWeight={300} fontSize={'12px'}>{note.tag as string}</Box> :

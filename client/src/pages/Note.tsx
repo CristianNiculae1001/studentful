@@ -5,6 +5,7 @@ import { addNoteItem } from "../api/addNoteItem";
 import { getNoteItemsByNoteId } from "../api/getNoteItemsByNoteId";
 import { deleteNoteItem } from "../api/deleteNoteItem";
 import { TiDelete } from "react-icons/ti";
+import { deleteNote } from "../api/deleteNote";
 
 function Note() {
     const { id } = useParams();
@@ -39,7 +40,6 @@ function Note() {
     const fetchNoteItems = async () => {
         if(id) {
             const noteItems = await getNoteItemsByNoteId(sessionStorage.getItem('auth') || '', parseInt(id));
-
             setNoteItems(noteItems);
         }
     };
@@ -67,21 +67,50 @@ function Note() {
         }
     }
 
+    const handleDeleteNote = async (id: string) => {
+        if(id) {
+            const deletedNote = await deleteNote(id);
+            if(deletedNote.status === 1) {
+                toast({
+                    title: "Notita stearsa cu succes",
+                    status: "success",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                navigate('/notes');
+            } else {
+                toast({
+                    title: "Eroare la stergerea notitei",
+                    status: "error",
+                    duration: 3000,
+                    isClosable: true,
+                });
+            }
+        }
+    };
+
     useEffect(() => {
         fetchNoteItems();
     }, [id]);
 
     return (
         <Box className="noteContainer" p={'1rem'}>
-            <Breadcrumb>
-                <BreadcrumbItem>
-                    <BreadcrumbLink onClick={() => navigate('/notes')}>Notes</BreadcrumbLink>
-                </BreadcrumbItem>
+            <Box display={'flex'} justifyContent={'space-between'} alignItems={'center'} gap={'1rem'}>
+                <Box>
+                    <Breadcrumb>
+                        <BreadcrumbItem>
+                            <BreadcrumbLink onClick={() => navigate('/notes')}>Notes</BreadcrumbLink>
+                        </BreadcrumbItem>
 
-                <BreadcrumbItem isCurrentPage>
-                    <BreadcrumbLink href='#'>Notita #{id}</BreadcrumbLink>
-                </BreadcrumbItem>
-            </Breadcrumb>
+                        <BreadcrumbItem isCurrentPage>
+                            <BreadcrumbLink href='#'>Notita #{id}</BreadcrumbLink>
+                        </BreadcrumbItem>
+                    </Breadcrumb>
+                </Box>
+                <Box className="noteDeleteButton" textAlign={'right'}>
+                    <IconButton aria-label="Delete note" icon={<TiDelete style={{width: '20px', height: '20px', marginTop: '4px'}} />} colorScheme="red" isRound variant={'link'} onClick={() => handleDeleteNote(id as string)} />
+                </Box>
+            </Box>
             <Box className="noteItemInputContainer" mb={'1rem'} display={'flex'} justifyContent={'center'} alignItems={'center'} mt={'18dvh'}>
                 <Input type={'search'} onChange={(e) => setNote(e.target.value)} variant={'flushed'} value={note} placeholder="Ex: De facut tema la economie" maxW={'50%'} onKeyDown={handleAddNote} />
             </Box>
@@ -92,7 +121,7 @@ function Note() {
                             {noteItem.description as string}
                         </Box>
                         <Box>
-                            <Box display={'inline-block'} className="noteItemDate" fontSize={'1rem'} fontWeight={'bold'} textAlign={'center'} color={'gray.500'}>
+                            <Box display={'inline-block'} className="noteItemDate" fontSize={'1rem'} fontWeight={'bold'} textAlign={'center'} color={'gray.500'} pos={'relative'} bottom={'4px'}>
                                 {new Date((noteItem.created_at as string)).toLocaleDateString()}
                             </Box>
                             <Box display={'inline-block'} className="noteItemDeleteButton" fontSize={'1.2rem'} fontWeight={'bold'} textAlign={'center'} ml={'8px'}>

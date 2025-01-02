@@ -41,6 +41,22 @@ export const getNotes = async (user_id: string, page: number, limit: number) => 
     }
 };
 
+export const deleteNote = async (id: number) => {
+    try {
+        await db.table('note_item').where({note_id: id}).del();
+        await db.table('note').where({id}).del();
+        return {
+            status: 1,
+        };
+    } catch (error) {
+        logger.error(error);
+        return {
+            status: 0,
+            message: error,
+        };
+    }
+};
+
 export const addNoteItem = async (note_id: number, description: string) => {
     try {
         const noteItem = await db('note_item').insert({note_id, description}).returning('*');

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addNote, getNotes, getNoteItemsByNoteId, addNoteItem, deleteNoteItem } from "../../services/notes";
+import { addNote, getNotes, getNoteItemsByNoteId, addNoteItem, deleteNoteItem, deleteNote } from "../../services/notes";
 
 export const addNoteController = async (req: Request, res: Response) => {
     //@ts-ignore
@@ -17,6 +17,12 @@ export const getNotesController = async (req: Request, res: Response) => {
     //@ts-ignore
     const catalog = await getNotes(user_id, page, limit);
     res.json(catalog);
+};
+
+export const deleteNoteController = async (req: Request, res: Response) => {
+    const noteId = req?.params?.id as string
+    const deletedNote = await deleteNote(parseInt(noteId));
+    res.json(deletedNote);
 };
 
 export const addNoteItemController = async (req: Request, res: Response) => {
