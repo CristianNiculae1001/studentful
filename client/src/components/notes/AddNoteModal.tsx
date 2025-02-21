@@ -1,8 +1,8 @@
 import { Box, Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useToast } from "@chakra-ui/react"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { addNote } from "../../api/addNote";
 
-function AddNoteModal({isOpen, onClose}: {isOpen: boolean; onClose: () => void}) {
+function AddNoteModal({isOpen, onClose, isAddedNote, setIsAddedNote}: {isOpen: boolean; onClose: () => void; isAddedNote: boolean; setIsAddedNote: React.Dispatch<React.SetStateAction<boolean>>}) {
     const [title, setTitle] = useState('');
     const [tag, setTag] = useState('');
 
@@ -20,9 +20,16 @@ function AddNoteModal({isOpen, onClose}: {isOpen: boolean; onClose: () => void})
                 duration: 3000,
                 isClosable: true,
             });
+            setIsAddedNote(true);
             onClose();
         }
     };
+
+    useEffect(() => {
+        if(isAddedNote) {
+            setIsAddedNote(false);
+        }
+    }, [isAddedNote]);
 
     return (
         <Box className="addNoteModalContainer">

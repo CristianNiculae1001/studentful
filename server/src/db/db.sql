@@ -75,3 +75,45 @@ CREATE TABLE note_item (
     isCompleted BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+CREATE TABLE editor_modification (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) NOT NULL,
+    content VARCHAR NOT NULL,
+    tag VARCHAR,
+    subject VARCHAR,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+);
+
+CREATE TYPE access_type AS ENUM ('private', 'public', 'restricted');
+
+CREATE TABLE link (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) NOT NULL,
+    title VARCHAR NOT NULL,
+    url VARCHAR NOT NULL,
+    label VARCHAR NOT NULL,
+    -- access enum ('public', 'private', 'restricted')
+    access access_type NOT NULL DEFAULT 'private',
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE link_access (
+    id SERIAL PRIMARY KEY,
+    link_id INTEGER REFERENCES link(id) NOT NULL,
+    author_id INTEGER REFERENCES users(id) NOT NULL,
+    guest_id INTEGER REFERENCES users(id) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE credentials (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) NOT NULL,
+    service VARCHAR NOT NULL,
+    username VARCHAR NOT NULL,
+    password VARCHAR NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- https://dev.to/rone/how-to-build-a-password-manager-with-nodejs-part-1-34i5 - password manager

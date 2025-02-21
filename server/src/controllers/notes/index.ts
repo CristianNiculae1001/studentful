@@ -14,8 +14,9 @@ export const getNotesController = async (req: Request, res: Response) => {
     const user_id = req?.token?.id;
     const page = req?.query?.page;
     const limit = req?.query?.limit;
+    const search = req?.query?.search;
     //@ts-ignore
-    const catalog = await getNotes(user_id, page, limit);
+    const catalog = await getNotes(user_id, page, limit, search);
     res.json(catalog);
 };
 

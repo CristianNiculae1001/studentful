@@ -25,12 +25,28 @@ export const addNote = async (payload: Record<string, unknown>) => {
 }
 
 // get notes paginated
-export const getNotes = async (user_id: string, page: number, limit: number) => {
+export const getNotes = async (user_id: string, page: number, limit: number, search?: string) => {
     try {
-        const notes = await db.table('note').select('*').limit(limit).offset((page - 1) * limit).where({user_id});
+        let query = db.table('note').where({ user_id });
+
+        if (search) {
+            query = query.andWhere((qb) => {
+                qb.where('title', 'like', `%${search}%`)
+                  .orWhereRaw("to_char(created_at, 'YYYY-MM-DD') LIKE ?", [`%${search}%`])
+                  .orWhere('tag', 'like', `%${search}%`);
+            });
+        }
+
+        const totalNotesQuery = query.clone();
+        const totalNotes = await totalNotesQuery.count('* as count').first();
+
+        const notes = await query.select('*').limit(limit).offset((page - 1) * limit);
+
         return {
             status: 1,
             data: notes,
+            total: (totalNotes as any)?.count || 0,
+            totalPages: Math.ceil(((totalNotes as any)?.count || 0) / limit),
         };
     } catch (error) {
         logger.error(error);
@@ -40,6 +56,7 @@ export const getNotes = async (user_id: string, page: number, limit: number) => 
         };
     }
 };
+
 
 export const deleteNote = async (id: number) => {
     try {
