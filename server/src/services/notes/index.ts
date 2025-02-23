@@ -120,3 +120,18 @@ export const deleteNoteItem = async (id: number) => {
         };
     }
 };
+
+export const updateNoteItemStatus = async (id: number, status: boolean) => {
+    try {
+        await db.table('note_item').where({id}).update({iscompleted: status});
+        return {
+            status: 1,
+        };
+    } catch (error) {
+        logger.error(error);
+        return {
+            status: 0,
+            message: error,
+        };
+    }
+};

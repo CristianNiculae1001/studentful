@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addNote, getNotes, getNoteItemsByNoteId, addNoteItem, deleteNoteItem, deleteNote } from "../../services/notes";
+import { addNote, getNotes, getNoteItemsByNoteId, addNoteItem, deleteNoteItem, deleteNote, updateNoteItemStatus } from "../../services/notes";
 
 export const addNoteController = async (req: Request, res: Response) => {
     //@ts-ignore
@@ -48,4 +48,11 @@ export const deleteNoteItemController = async (req: Request, res: Response) => {
     const noteItemId = req?.params?.id as string
     const deletedNoteItem = await deleteNoteItem(parseInt(noteItemId));
     res.json(deletedNoteItem);
+};
+
+export const updateNoteItemStatusController = async (req: Request, res: Response) => {
+    const noteItemId = req?.params?.id as string
+    const status = req?.body?.status as string
+    const updatedNoteItem = await updateNoteItemStatus(parseInt(noteItemId), Boolean(status));
+    res.json(updatedNoteItem);
 };

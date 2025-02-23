@@ -12,6 +12,7 @@ import { getNotes } from '../../api/getNotes';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
+import { formatDate } from '../../utils/formatDate';
 
 function List({ isAddedNote }: { isAddedNote: boolean }) {
 	const [notes, setNotes] = useState<Record<string, any>[]>([]);
@@ -23,13 +24,13 @@ function List({ isAddedNote }: { isAddedNote: boolean }) {
 
 	const getNotesHandler = async () => {
 		const response = await getNotes(
-			sessionStorage.getItem('auth') ?? '',
+			localStorage.getItem('auth') ?? '',
 			page,
 			10,
 			isSearched ? searchInput : undefined
 		);
 		if (response?.status === 0) {
-			sessionStorage.removeItem('auth');
+			localStorage.removeItem('auth');
 			navigate('/login');
 			return;
 		}
@@ -39,13 +40,13 @@ function List({ isAddedNote }: { isAddedNote: boolean }) {
 
 	const handleNotes = async () => {
 		const response = await getNotes(
-			sessionStorage.getItem('auth') ?? '',
+			localStorage.getItem('auth') ?? '',
 			1,
 			10,
 			searchInput
 		);
 		if (response?.status === 0) {
-			sessionStorage.removeItem('auth');
+			localStorage.removeItem('auth');
 			navigate('/login');
 			return;
 		}
@@ -235,7 +236,7 @@ function List({ isAddedNote }: { isAddedNote: boolean }) {
 									fontSize='14px'
 									color={createdAtColor}
 								>
-									{new Date(note.created_at as string).toLocaleDateString()}
+									{formatDate(note.created_at as string)}
 								</Box>
 							</Box>
 						))}
@@ -249,9 +250,10 @@ function List({ isAddedNote }: { isAddedNote: boolean }) {
 				justifyContent='center'
 				mt='1rem'
 				alignItems={'center'}
+				w={'calc(100% - 320px)'}
 				pos={'fixed'}
 				bottom={'1rem'}
-				left={'52rem'}
+				right={0}
 			>
 				<Button
 					onClick={() => setPage(page - 1)}

@@ -5,7 +5,7 @@ export const deleteNote = async (id: string) => {
     const response = await fetch(`${NOTES_URL}/${id}`, {
       method: "DELETE",
       headers: {
-        'Authorization': `Bearer ${sessionStorage.getItem('auth')}`
+        'Authorization': `Bearer ${localStorage.getItem('auth')}`
       }
     });
     if (response.ok) {

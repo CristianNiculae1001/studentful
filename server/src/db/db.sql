@@ -91,7 +91,6 @@ CREATE TYPE access_type AS ENUM ('private', 'public', 'restricted');
 CREATE TABLE link (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) NOT NULL,
-    title VARCHAR NOT NULL,
     url VARCHAR NOT NULL,
     label VARCHAR NOT NULL,
     -- access enum ('public', 'private', 'restricted')
