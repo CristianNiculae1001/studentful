@@ -1,0 +1,25 @@
+.editorItemContainer code {
+    font-family: Consolas,"courier new";
+    color: crimson;
+    background-color: #f1f1f1;
+    padding: 2px;
+    font-size: 105%;
+}
+
+.editorItemContainer img {
+    width: 240px;
+    height: 120px;
+    object-fit: contain;
+}
+
+.editorItemContainer h1, .editorItemContainer h2, .editorItemContainer h3,.editorItemContainer h4,.editorItemContainer h5,.editorItemContainer h6 {
+    font-size: revert !important;
+}
+
+.markdownEditor ul, .markdownEditor ol {
+    padding: 1rem;
+}
+
+.editorItemContainer li {
+    margin: 0;
+}

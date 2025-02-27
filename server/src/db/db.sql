@@ -81,9 +81,9 @@ CREATE TABLE editor_modification (
     user_id INTEGER REFERENCES users(id) NOT NULL,
     content VARCHAR NOT NULL,
     tag VARCHAR,
-    subject VARCHAR,
+    title VARCHAR NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TYPE access_type AS ENUM ('private', 'public', 'restricted');

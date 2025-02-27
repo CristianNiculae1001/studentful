@@ -245,12 +245,13 @@ function Links() {
 				alignItems='center'
 				mb='1rem'
 			>
-				<Box flex={0.4} display={'flex'} alignItems={'center'} gap={'1.25rem'}>
+				<Box display={'flex'} alignItems={'center'} gap={'1.25rem'}>
 					<InputGroup>
 						<InputLeftElement>
 							<FiSearch />
 						</InputLeftElement>
 						<Input
+							maxW={240}
 							type={'search'}
 							variant={'flushed'}
 							placeholder='Caută un link...'
@@ -259,7 +260,8 @@ function Links() {
 						/>
 					</InputGroup>
 					<Select
-						placeholder='Filtrează după acces'
+						maxW={140}
+						placeholder='Acces'
 						onChange={(e) => setSelectedAccess(e.target.value)}
 					>
 						<option value='public'>Public</option>

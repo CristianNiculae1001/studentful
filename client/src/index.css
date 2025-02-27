@@ -1,3 +1,45 @@
 body {
     min-height: 100dvh !important;
 }
+
+.editorContainer code {
+    font-family: Consolas,"courier new";
+    color: crimson;
+    background-color: #f1f1f1;
+    padding: 2px;
+    font-size: 105%;
+}
+
+.editorContainer img {
+    width: 240px;
+    height: 120px;
+    object-fit: contain;
+}
+
+h1,h2,h3,h4,h5,h6, p, ol, ul {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+}
+
+.editorContainer h1, .editorContainer h2, .editorContainer h3,.editorContainer h4,.editorContainer h5,.editorContainer h6 {
+    font-size: revert !important;
+}
+
+.editorContainer ul, .editorContainer ol {
+    padding: 1rem;
+}
+
+.editorContainer li {
+    margin: 0;
+}
+
+@media (max-width: 1280px) {
+    .textareaContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .hpTextarea, .markdownEditor {
+        width: 90% !important;
+    }
+}

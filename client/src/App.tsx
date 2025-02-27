@@ -9,6 +9,7 @@ import {
 	NavGroup,
 } from '@saas-ui/react';
 import { FiHome, FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
+import { GoBook } from 'react-icons/go';
 import { SlNotebook } from 'react-icons/sl';
 import Homepage from './pages/Homepage';
 import Register from './pages/Register';
@@ -26,6 +27,9 @@ import Notes from './pages/Notes';
 import Note from './pages/Note';
 import Links from './pages/Links';
 import Link from './pages/Link';
+import Editor from './pages/Editor';
+import EditorList from './pages/EditorList';
+import EditorItem from './pages/EditorItem';
 
 function App() {
 	const { isOpen, onToggle, onClose } = useDisclosure({
@@ -85,6 +89,30 @@ function App() {
 							element={
 								<Auth>
 									<Note />
+								</Auth>
+							}
+						/>
+						<Route
+							path={'/editor'}
+							element={
+								<Auth>
+									<Editor />
+								</Auth>
+							}
+						/>
+						<Route
+							path={'/editor/list'}
+							element={
+								<Auth>
+									<EditorList />
+								</Auth>
+							}
+						/>
+						<Route
+							path={'/editor/list/:id'}
+							element={
+								<Auth>
+									<EditorItem />
 								</Auth>
 							}
 						/>
@@ -158,6 +186,14 @@ function App() {
 									>
 										Link-uri
 									</NavItem>
+									<NavItem
+										icon={<GoBook />}
+										onClick={() => {
+											navigate('/editor');
+										}}
+									>
+										Editor
+									</NavItem>
 								</NavGroup>
 							</SidebarSection>
 							<SidebarOverlay zIndex='1' />
@@ -204,6 +240,30 @@ function App() {
 							element={
 								<Auth>
 									<Note />
+								</Auth>
+							}
+						/>
+						<Route
+							path={'/editor'}
+							element={
+								<Auth>
+									<Editor />
+								</Auth>
+							}
+						/>
+						<Route
+							path={'/editor/list'}
+							element={
+								<Auth>
+									<EditorList />
+								</Auth>
+							}
+						/>
+						<Route
+							path={'/editor/list/:id'}
+							element={
+								<Auth>
+									<EditorItem />
 								</Auth>
 							}
 						/>

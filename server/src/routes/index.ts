@@ -5,6 +5,7 @@ import login from './auth/login';
 import catalog from './catalog/index';
 import notes from './notes/index';
 import links from './links/index';
+import editor from './editor/index';
 
 export {
     init,
@@ -14,4 +15,5 @@ export {
     catalog,
     notes,
     links,
+    editor,
 };
