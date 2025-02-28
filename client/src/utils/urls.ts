@@ -5,3 +5,4 @@ export const CATALOG_URL = 'http://localhost:5000/api/v1/catalog';
 export const NOTES_URL = 'http://localhost:5000/api/v1/notes';
 export const EDITOR_URL = 'http://localhost:5000/api/v1/editor';
 export const LINKS_URL = 'http://localhost:5000/api/v1/links';
+export const CREDENTIALS_URL = 'http://localhost:5000/api/v1/credentials';

@@ -30,6 +30,8 @@ import Link from './pages/Link';
 import Editor from './pages/Editor';
 import EditorList from './pages/EditorList';
 import EditorItem from './pages/EditorItem';
+import { FaUserSecret } from 'react-icons/fa';
+import Credentials from './pages/Credentials';
 
 function App() {
 	const { isOpen, onToggle, onClose } = useDisclosure({
@@ -116,6 +118,14 @@ function App() {
 								</Auth>
 							}
 						/>
+						<Route
+							path={'/credentials'}
+							element={
+								<Auth>
+									<Credentials />
+								</Auth>
+							}
+						/>
 						<Route path={'/register'} element={<Register />} />
 						<Route path={'/login'} element={<Login />} />
 					</Routes>
@@ -194,6 +204,14 @@ function App() {
 									>
 										Editor
 									</NavItem>
+									<NavItem
+										icon={<FaUserSecret />}
+										onClick={() => {
+											navigate('/credentials');
+										}}
+									>
+										Credentiale
+									</NavItem>
 								</NavGroup>
 							</SidebarSection>
 							<SidebarOverlay zIndex='1' />
@@ -264,6 +282,14 @@ function App() {
 							element={
 								<Auth>
 									<EditorItem />
+								</Auth>
+							}
+						/>
+						<Route
+							path={'/credentials'}
+							element={
+								<Auth>
+									<Credentials />
 								</Auth>
 							}
 						/>

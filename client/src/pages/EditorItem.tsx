@@ -104,6 +104,25 @@ function EditorItem() {
 		}
 	};
 
+	const placeholders = [
+		'Java - polimorfism',
+		'C++ - STL',
+		'Python - Liste comprehensive',
+		'Economie - Oferta si Cerere',
+		'Matematica - Derivate',
+		'Fizica - Mecanica',
+		'Chimie - Rezolvare Probleme',
+		'Biologie - Anatomie',
+		'Istorie - Revolutia Industriala',
+		'Geografie - Harti',
+		'Engleza - Gramatica',
+		'Franceza - Vocabular',
+		'Germana - Pronuntie',
+		'Spaniola - Dialog',
+	];
+	const randomPlaceholder =
+		placeholders[Math.floor(Math.random() * placeholders.length)];
+
 	return (
 		<Box className='editorItemContainer' p={'1rem'}>
 			{id ? (
@@ -166,7 +185,7 @@ function EditorItem() {
 					>
 						<Textarea
 							className='hpTextarea'
-							placeholder='Java - polimorfism'
+							placeholder={randomPlaceholder}
 							value={input}
 							onChange={handleTextareaChange}
 							style={{

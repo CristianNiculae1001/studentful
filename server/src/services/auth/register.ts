@@ -51,7 +51,6 @@ export async function verifyToken (verificationTokenPayload: VerifyTokenPayload)
             };
         }
     } catch (error) {
-        console.log(error);
         logger.error(error);
         return {
             status: 0,
@@ -92,7 +91,6 @@ export async function register (userPayload: UserPayload) {
             }
         }
     } catch (error) {
-        console.log(error);
         logger.error(error);
         return {
             status: 0,

@@ -1,9 +1,12 @@
 import db from '../../db/connection';
 import logger from '../../helpers/winston';
+import { encrypt } from '../../helpers/encrypt';
+import { decrypt } from '../../helpers/decrypt';
 
-export const addEditorChanges = async (user_id: string, editorData: Record<string, unknown>) => {
+export const addCredentials = async (user_id: string, service: string, username: string, password: string) => {
     try {
-        const result = await db.table('editor_modification').insert({user_id, ...editorData as Record<string, unknown>}).returning('*');
+        const encryptedPassword = encrypt(password);
+        const result = await db.table('credentials').insert({user_id, service, username, password: encryptedPassword}).returning('*');
         if(!result) {
             return {
                 status: 0,
@@ -23,9 +26,9 @@ export const addEditorChanges = async (user_id: string, editorData: Record<strin
     }
 };
 
-export const getEditorsChanges = async (user_id: string) => {
+export const getCredentials = async (user_id: string) => {
     try {
-        const result = await db.table('editor_modification').select('*').where({user_id});
+        const result = await db.table('credentials').select('*').where({user_id});
         if(!result) {
             return {
                 status: 0,
@@ -45,9 +48,9 @@ export const getEditorsChanges = async (user_id: string) => {
     }
 };
 
-export const deleteEditorChanges = async (user_id: string, id: string) => {
+export const deleteCredentials = async (user_id: string, id: string) => {
     try {
-        const result = await db.table('editor_modification').where({user_id, id}).delete();
+        const result = await db.table('credentials').where({user_id, id}).delete();
         if(!result) {
             return {
                 status: 0,
@@ -67,15 +70,17 @@ export const deleteEditorChanges = async (user_id: string, id: string) => {
     }
 };
 
-export const getEditorChanges = async (user_id: string, id: string) => {
+export const updateCredentials = async (user_id: string, id: string, service: string, username: string, password: string) => {
     try {
-        const result = await db.table('editor_modification').select('*').where({user_id, id});
+        const encryptedPassword = encrypt(password);
+        const result = await db.table('credentials').where({user_id, id}).update({service, username, password: encryptedPassword}).returning('*');
         if(!result) {
             return {
                 status: 0,
                 data: null,
             };
         }
+        await db.table('credentials').where({user_id, id}).update({updated_at: new Date()});
         return {
             status: 1,
             data: result
@@ -89,19 +94,19 @@ export const getEditorChanges = async (user_id: string, id: string) => {
     }
 };
 
-export const updateEditorChanges = async (user_id: string, id: string, data: Record<string, unknown>) => {
+export const getDecryptedPassword = async (user_id: string, id: string) => {
     try {
-        const result = await db.table('editor_modification').where({user_id, id}).update(data as Record<string, unknown>).returning('*');
+        const result = await db.table('credentials').select('password').where({user_id, id});
         if(!result) {
             return {
                 status: 0,
                 data: null,
             };
         }
-        await db.table('editor_modification').where({user_id, id}).update({updated_at: new Date()});
+        const decryptedPassword = decrypt(JSON.parse(result[0].password));
         return {
             status: 1,
-            data: result
+            data: decryptedPassword
         };
     } catch (error) {
         logger.error(error);

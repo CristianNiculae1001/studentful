@@ -112,7 +112,8 @@ CREATE TABLE credentials (
     service VARCHAR NOT NULL,
     username VARCHAR NOT NULL,
     password VARCHAR NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 -- https://dev.to/rone/how-to-build-a-password-manager-with-nodejs-part-1-34i5 - password manager
