@@ -16,7 +16,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Nav from './components/static/Navbar';
 import Auth from './components/static/Auth';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './store';
 import { useEffect } from 'react';
 import useWindowDimensions from './hooks/useWindowDimensions';
@@ -32,6 +32,8 @@ import EditorList from './pages/EditorList';
 import EditorItem from './pages/EditorItem';
 import { FaUserSecret } from 'react-icons/fa';
 import Credentials from './pages/Credentials';
+import { updateUserData } from './features/user';
+import { MdLogout } from 'react-icons/md';
 
 function App() {
 	const { isOpen, onToggle, onClose } = useDisclosure({
@@ -40,6 +42,7 @@ function App() {
 	const user = useSelector((state: RootState) => state.user.data);
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const { width } = useWindowDimensions();
 
 	useEffect(() => {
@@ -211,6 +214,20 @@ function App() {
 										}}
 									>
 										Credentiale
+									</NavItem>
+									<NavItem
+										icon={<MdLogout />}
+										onClick={() => {
+											localStorage.removeItem('auth');
+											dispatch(updateUserData(null));
+											navigate('/login');
+										}}
+										// pos={'absolute'}
+										// bottom={'6px'}
+										// w={'255px'}
+										// maxW={'255px'}
+									>
+										Logout
 									</NavItem>
 								</NavGroup>
 							</SidebarSection>

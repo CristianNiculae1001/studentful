@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.13.0",
     "@reduxjs/toolkit": "^2.2.7",
     "@saas-ui/auth": "^3.2.1",
+    "@saas-ui/charts": "^0.15.0",
     "@saas-ui/react": "^2.8.8",
     "ag-grid-react": "^32.3.2",
     "boring-avatars": "^1.11.2",

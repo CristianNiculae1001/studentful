@@ -10,9 +10,11 @@ import { updateCatalog } from '../../../api/updateCatalog';
 function Table({
 	isSuccessful,
 	setIsSuccessful,
+	inHomepage,
 }: {
-	isSuccessful: boolean;
-	setIsSuccessful: React.Dispatch<React.SetStateAction<boolean>>;
+	isSuccessful?: boolean;
+	setIsSuccessful?: React.Dispatch<React.SetStateAction<boolean>>;
+	inHomepage?: boolean;
 }) {
 	// const [catalogData, setCatalogData] = useState<Record<string, unknown>[]>([]);
 	const toast = useToast();
@@ -221,12 +223,16 @@ function Table({
 	useEffect(() => {
 		if (isSuccessful) {
 			getCatalogData();
-			setIsSuccessful(false);
+			setIsSuccessful && setIsSuccessful(false);
 		}
 	}, [isSuccessful]);
 
 	return (
-		<Box className='tableContainer' h={'calc(100vh - 220px)'} mt={'1rem'}>
+		<Box
+			className='tableContainer'
+			h={inHomepage ? '18rem' : 'calc(100vh - 220px)'}
+			mt={inHomepage ? 0 : '1rem'}
+		>
 			<Box
 				style={gridStyle}
 				className={

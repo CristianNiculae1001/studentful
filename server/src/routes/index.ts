@@ -7,6 +7,7 @@ import notes from './notes/index';
 import links from './links/index';
 import editor from './editor/index';
 import credentials from './credentials/index';
+import homepage from './homepage/index';
 
 export {
     init,
@@ -18,4 +19,5 @@ export {
     links,
     editor,
     credentials,
+    homepage,
 };

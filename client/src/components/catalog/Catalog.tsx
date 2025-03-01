@@ -42,6 +42,7 @@ function Catalog() {
 	const [sem2Data, setSem2Data] = useState<{ sem2: Semester[] }>({
 		sem2: [],
 	});
+
 	// const materii = ['Economie', 'Algebra liniara', 'Analiza Matematica', 'SDD', 'Econometrie', 'Microeconomie', 'Multimedia', 'POO'];
 
 	const [isSuccessful, setIsSuccessful] = useState(false);
@@ -58,7 +59,6 @@ function Catalog() {
 			toast({
 				title: 'Error',
 				status: 'error',
-				description: catalog?.message,
 				isClosable: true,
 				duration: 2000,
 				position: 'top-right',

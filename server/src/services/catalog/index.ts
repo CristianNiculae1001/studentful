@@ -12,7 +12,7 @@ export const addCatalogData = async (catalogData: Record<string, unknown>) => {
             const currentCatalog: {[key: string]: {sem1: {}[]; sem2: {}[]}}[] = existingCatalog[0]?.data;
             const existingYear = (currentCatalog.findIndex(element => Object.keys(element)[0].trim() === Object.keys(catalog)[0].trim())) 
             // Adaugarea unui element nou la un an existent
-            if(existingYear) {
+            if(existingYear !== -1) {
                 currentCatalog[existingYear][Object.keys(currentCatalog[existingYear])[0]].sem1 = [...currentCatalog[existingYear][Object.keys(currentCatalog[existingYear])[0]].sem1, ...catalog[Object.keys(currentCatalog[existingYear])[0]].sem1];
                 currentCatalog[existingYear][Object.keys(currentCatalog[existingYear])[0]].sem2 = [...currentCatalog[existingYear][Object.keys(currentCatalog[existingYear])[0]].sem2, ...catalog[Object.keys(currentCatalog[existingYear])[0]].sem2];
             } else {
