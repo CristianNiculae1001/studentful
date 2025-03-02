@@ -6,8 +6,9 @@ CREATE TABLE users (
     password VARCHAR NOT NULL,
     verification_token VARCHAR(4),
     token_expiration_date TIMESTAMP,
+    requested_reset_password BOOLEAN DEFAULT false,
     active BOOLEAN DEFAULT false,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW() 
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 -- Catalog Data JSON Structure

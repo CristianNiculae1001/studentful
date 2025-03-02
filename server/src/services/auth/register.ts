@@ -26,7 +26,8 @@ export async function verifyToken (verificationTokenPayload: VerifyTokenPayload)
         if(user.length !== 0) {
             if(user[0].verification_token === verificationTokenPayload.token) {                
                 if(new Date(Date.now()) < user[0].token_expiration_date) {
-                    await db.table('users').update({active: true}).where({email: user[0].email, verification_token: '', token_expiration_date: ''});
+                    await db.table('users').update({active: true}).where({email: user[0].email});
+                    await db.table('users').update({verification_token: null, token_expiration_date: null}).where({email: user[0].email});
                     const token = jwt.sign({ email: user[0].email, id: user[0].id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
                     return {
                         status: 1,
@@ -44,12 +45,11 @@ export async function verifyToken (verificationTokenPayload: VerifyTokenPayload)
                     message: 'Wrong Verification Token',
                 };
             }
-        } else {
-            return {
-                status: 0,
-                message: 'User not found',
-            };
         }
+        return {
+            status: 0,
+            message: 'User not found',
+        };
     } catch (error) {
         logger.error(error);
         return {

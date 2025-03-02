@@ -132,6 +132,15 @@ export default function Login() {
 								Sign in
 							</Button>
 						</Stack>
+						<Box textAlign={'center'}>
+							<Button
+								color={'blue.400'}
+								variant={'link'}
+								onClick={() => navigate('/register')}
+							>
+								Nu ai un cont? Sign up
+							</Button>
+						</Box>
 					</Stack>
 				</Box>
 				<Modal

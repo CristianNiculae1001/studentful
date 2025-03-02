@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Card,
 	CardBody,
 	CardHeader,
@@ -10,10 +11,13 @@ import {
 	StatLabel,
 	StatNumber,
 	useToast,
+	Text,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { getCatalogStats } from '../../api/getCatalogStats';
 import { BarChart, LineChart, Sparkline } from '@saas-ui/charts';
+import { FiBarChart2 } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 function Stats() {
 	const [stats, setStats] = useState<Record<string, any>>({});
@@ -53,17 +57,48 @@ function Stats() {
 		</Card>
 	);
 
+	const EmptyState = ({
+		title,
+		message,
+	}: {
+		title: string;
+		message: string;
+	}) => {
+		const navigate = useNavigate();
+
+		return (
+			<Box textAlign='center' p={5}>
+				<FiBarChart2 size={50} color='gray' />
+				<Text fontSize='lg' fontWeight='bold' mt={3}>
+					{title}
+				</Text>
+				<Text fontSize='md' color='gray.500' mt={2}>
+					{message}
+				</Text>
+				<Button mt={4} colorScheme='blue' onClick={() => navigate('/catalog')}>
+					📚 Adaugă Note
+				</Button>
+			</Box>
+		);
+	};
+
 	return (
-		<Skeleton isLoaded={!loading} className='statsContainer'>
+		<Skeleton isLoaded={!loading} className='statsContainer' mt='1rem'>
 			{Object.keys(stats).length > 0 ? (
 				<>
 					<Box>
-						<SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={5}>
-							<StatCard title='Total Materii' value={stats?.totalSubjects} />
-							<StatCard title='Total Credite' value={stats?.totalCredits} />
+						<SimpleGrid columns={{ base: 1, md: 3, lg: 3 }} spacing={5}>
+							<StatCard
+								title='Total Materii'
+								value={stats?.totalSubjects || 0}
+							/>
+							<StatCard
+								title='Total Credite'
+								value={stats?.totalCredits || 0}
+							/>
 							<StatCard
 								title='Media Generală'
-								value={stats?.overallAverage?.toFixed(2)}
+								value={stats?.overallAverage?.toFixed(2) || 'N/A'}
 							/>
 						</SimpleGrid>
 
@@ -71,18 +106,18 @@ function Stats() {
 							<Card title='Evoluția Notelor'>
 								<CardHeader
 									pb='0'
-									display={'flex'}
-									justifyContent={'space-between'}
-									alignItems={'center'}
+									display='flex'
+									justifyContent='space-between'
+									alignItems='center'
 								>
 									<Heading as='h4' fontWeight='medium' size='md' flex={1}>
-										Evolutia Mediilor pe ani
+										Evoluția Mediilor pe ani
 									</Heading>
 									<Stat flex={0.4}>
-										<StatLabel>
-											Randament Educational fata de anul precedent
+										<StatLabel textAlign='center'>
+											Randament Educațional
 										</StatLabel>
-										<StatNumber textAlign={'center'}>
+										<StatNumber textAlign='center'>
 											{stats.lastYearGrowth !== null ? (
 												<span
 													style={{
@@ -100,13 +135,20 @@ function Stats() {
 									</Stat>
 								</CardHeader>
 								<CardBody>
-									<Sparkline
-										height={'140px'}
-										categories={['average']}
-										data={stats?.yearlySparkline?.sort((a: any, b: any) =>
-											a.year.localeCompare(b.year)
-										)}
-									/>
+									{stats?.yearlySparkline?.length > 0 ? (
+										<Sparkline
+											height='240px'
+											categories={['average']}
+											data={stats?.yearlySparkline?.sort((a: any, b: any) =>
+												a.year.localeCompare(b.year)
+											)}
+										/>
+									) : (
+										<EmptyState
+											title='Nu există date despre evoluția mediilor'
+											message='Începe prin adăugarea unor note în catalog.'
+										/>
+									)}
 								</CardBody>
 							</Card>
 						</Box>
@@ -119,16 +161,21 @@ function Stats() {
 											Media Notelor pe Materii
 										</Heading>
 									</CardHeader>
-									<BarChart
-										height={'240px'}
-										categories={['average']}
-										data={stats?.subjectAverages?.map((item: any) => {
-											return {
+									{stats?.subjectAverages?.length > 0 ? (
+										<BarChart
+											height='300px'
+											categories={['average']}
+											data={stats?.subjectAverages?.map((item: any) => ({
 												date: item?.subject,
 												average: item?.average,
-											};
-										})}
-									/>
+											}))}
+										/>
+									) : (
+										<EmptyState
+											title='Nu există date despre media materiilor'
+											message='Adaugă note în catalog pentru a vedea aceste statistici.'
+										/>
+									)}
 								</CardBody>
 							</Card>
 
@@ -139,18 +186,25 @@ function Stats() {
 											Media pe Semestre
 										</Heading>
 									</CardHeader>
-									<LineChart
-										height={'200px'}
-										categories={['average']}
-										data={stats?.semesterAverages
-											?.map((item: any) => ({
-												date: `${item?.year} | S${
-													item?.semester[item?.semester.length - 1]
-												}`,
-												average: item.average,
-											}))
-											.sort((a: any, b: any) => a.date.localeCompare(b.date))}
-									/>
+									{stats?.semesterAverages?.length > 0 ? (
+										<LineChart
+											height='300px'
+											categories={['average']}
+											data={stats?.semesterAverages
+												?.map((item: any) => ({
+													date: `${item?.year} | S${
+														item?.semester[item?.semester.length - 1]
+													}`,
+													average: item.average,
+												}))
+												.sort((a: any, b: any) => a.date.localeCompare(b.date))}
+										/>
+									) : (
+										<EmptyState
+											title='Nu există date despre media pe semestre'
+											message='Adaugă note pentru a urmări progresul tău.'
+										/>
+									)}
 								</CardBody>
 							</Card>
 						</SimpleGrid>
@@ -160,24 +214,34 @@ function Stats() {
 								<CardBody>
 									<CardHeader pb='0'>
 										<Heading as='h4' fontWeight='medium' size='md'>
-											Distributia Notelor
+											Distribuția Notelor
 										</Heading>
 									</CardHeader>
-									<BarChart
-										height={'200px'}
-										categories={['count']}
-										data={stats?.gradeDistribution?.map((item: any) => ({
-											date: `Nota ${item.grade}`,
-											count: item?.count,
-										}))}
-									/>
+									{stats?.gradeDistribution?.length > 0 ? (
+										<BarChart
+											height='400px'
+											categories={['count']}
+											data={stats?.gradeDistribution?.map((item: any) => ({
+												date: `Nota ${item.grade}`,
+												count: item?.count,
+											}))}
+										/>
+									) : (
+										<EmptyState
+											title='Nu există date despre distribuția notelor'
+											message='Adaugă note pentru a vedea statistici detaliate.'
+										/>
+									)}
 								</CardBody>
 							</Card>
 						</Box>
 					</Box>
 				</>
 			) : (
-				<></>
+				<EmptyState
+					title='Nu există statistici disponibile'
+					message='Începe prin adăugarea unor note în catalog pentru a vedea datele tale.'
+				/>
 			)}
 		</Skeleton>
 	);

@@ -149,6 +149,10 @@ export const redirectLink = async (label: string, user_id?: number) => {
             return { status: 0, message: "Eroare: utilizator inexistent" };
         }
 
+        if (link.user_id === user_id) {
+            return { status: 1, data: link.url };
+        }
+
         if (link.access === 'private' && link.user_id !== user_id) {
             return { status: 0, message: "Acces restricționat" };
         }

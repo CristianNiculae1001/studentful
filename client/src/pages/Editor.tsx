@@ -10,6 +10,7 @@ import {
 	ModalHeader,
 	ModalOverlay,
 	Textarea,
+	useColorModeValue,
 	useDisclosure,
 	useToast,
 } from '@chakra-ui/react';
@@ -82,6 +83,13 @@ function Editor() {
 	const randomPlaceholder =
 		placeholders[Math.floor(Math.random() * placeholders.length)];
 
+	const bgColorValue = useColorModeValue('white', 'rgba(255, 255, 255, 0.08)');
+	const borderColorValue = useColorModeValue(
+		'#ccc',
+		'rgba(255, 255, 255, 0.04)'
+	);
+	const textColorValue = useColorModeValue('#1d2025', '#EDEDED');
+
 	return (
 		<Box className='editorContainer' p={'1rem'}>
 			<Box
@@ -133,6 +141,9 @@ function Editor() {
 					placeholder={randomPlaceholder}
 					value={input}
 					onChange={handleTextareaChange}
+					bg={bgColorValue}
+					border={`1px solid ${borderColorValue}`}
+					color={textColorValue}
 					style={{
 						resize: 'none',
 						height: 'calc(100vh - 168px)',
@@ -144,14 +155,15 @@ function Editor() {
 					style={{
 						height: 'calc(100vh - 168px)',
 						width: '50%',
-						border: '1px solid #d1d5db',
 						borderRadius: '6px',
-						color: '#4b5563',
 						padding: '1rem',
 						wordWrap: 'break-word',
 						whiteSpace: 'pre',
 						overflow: 'auto',
 					}}
+					bg={bgColorValue}
+					border={`1px solid ${borderColorValue}`}
+					color={textColorValue}
 					ref={editorRef}
 				></Box>
 			</Box>

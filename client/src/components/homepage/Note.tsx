@@ -37,8 +37,8 @@ function Note() {
 		getLastNoteHandler();
 	}, []);
 
-	const noteBg = useColorModeValue('white', '#252A34');
-	const noteBorder = useColorModeValue('#ccc', '#393E46');
+	const noteBg = useColorModeValue('white', 'rgba(255, 255, 255, 0.08)');
+	const noteBorder = useColorModeValue('#ccc', 'rgba(255, 255, 255, 0.04)');
 	const textColor = useColorModeValue('#1d2025', '#EDEDED');
 	const hoverShadow = useColorModeValue(
 		'0 4px 12px rgba(0,0,0,0.15)',
@@ -53,11 +53,11 @@ function Note() {
 
 	return (
 		<Skeleton isLoaded={!loading}>
-			<Text fontWeight={600} fontSize={'16px'}>
+			<Text fontWeight={600} fontSize={'16px'} mb={'4px'}>
 				Ultima notita
 			</Text>
 			<Box
-				key={note.id as number}
+				key={note?.id as number}
 				className='noteContainer'
 				p='1rem'
 				minH='10rem'
@@ -67,8 +67,10 @@ function Note() {
 				borderRadius='8px'
 				cursor='pointer'
 				transition='all 0.3s ease'
-				_hover={{ transform: 'scale(1.02)', boxShadow: hoverShadow }}
-				onClick={() => navigate(`/note/${note.id}`)}
+				_hover={
+					note ? { transform: 'scale(1.02)', boxShadow: hoverShadow } : {}
+				}
+				onClick={() => note && navigate(`/note/${note?.id}`)}
 				position='relative'
 				boxShadow='lg'
 				_before={{
@@ -84,52 +86,90 @@ function Note() {
 					pointerEvents: 'none',
 				}}
 			>
-				<Box
-					className='noteTitle'
-					textAlign='center'
-					fontWeight={600}
-					fontSize='1.2rem'
-					fontFamily='Inter'
-					mb='0.5rem'
-					pos={'relative'}
-					bottom={'-6px'}
-				>
-					{note.title as string}
-				</Box>
+				{note ? (
+					<>
+						<Box
+							className='noteTitle'
+							textAlign='center'
+							fontWeight={600}
+							fontSize='1.2rem'
+							fontFamily='Inter'
+							mb='0.5rem'
+							pos={'relative'}
+							bottom={'-6px'}
+						>
+							{note?.title as string}
+						</Box>
 
-				<Box
-					className='noteContent'
-					fontSize='1rem'
-					fontFamily="'Courier New', monospace"
-					lineHeight='1.5'
-					whiteSpace='pre-line'
-				>
-					{note?.content as string}
-				</Box>
+						<Box
+							className='noteContent'
+							fontSize='1rem'
+							fontFamily="'Courier New', monospace"
+							lineHeight='1.5'
+							whiteSpace='pre-line'
+						>
+							{note?.content as string}
+						</Box>
 
-				{note?.tag && (
+						{note?.tag && (
+							<Box
+								className='noteTag'
+								textAlign='right'
+								fontWeight={300}
+								fontSize='12px'
+								mt='0.5rem'
+								fontStyle='italic'
+								color={tagColor}
+							>
+								{note?.tag as string}
+							</Box>
+						)}
+
+						<Box
+							className='noteCreatedAt'
+							textAlign='right'
+							mt='4px'
+							fontSize='14px'
+							color={createdAtColor}
+						>
+							{formatDate(note?.created_at as string)}
+						</Box>
+					</>
+				) : (
 					<Box
-						className='noteTag'
-						textAlign='right'
-						fontWeight={300}
-						fontSize='12px'
-						mt='0.5rem'
-						fontStyle='italic'
-						color={tagColor}
+						textAlign='center'
+						display='flex'
+						flexDirection='column'
+						alignItems='center'
+						justifyContent='center'
+						height='100%'
 					>
-						{note.tag as string}
+						<Text fontSize='1.1rem' fontWeight={500} color={textColor} mb='8px'>
+							Nu există nicio notiță recentă 📄
+						</Text>
+						<Text fontSize='0.9rem' color={tagColor} mb='12px'>
+							Creează una nouă pentru a începe!
+						</Text>
+						<Box
+							as='button'
+							bg={noteBg}
+							color={textColor}
+							px='12px'
+							py='6px'
+							fontSize='14px'
+							fontWeight='bold'
+							borderRadius='6px'
+							border={`1px solid ${noteBorder}`}
+							cursor='pointer'
+							transition='all 0.3s ease'
+							_hover={{ background: noteBorder }}
+							onClick={() => navigate('/notes')}
+							mt={'0.75rem'}
+						>
+							✍️ Adaugă o notiță
+						</Box>
 					</Box>
 				)}
-
-				<Box
-					className='noteCreatedAt'
-					textAlign='right'
-					mt='4px'
-					fontSize='14px'
-					color={createdAtColor}
-				>
-					{formatDate(note.created_at as string)}
-				</Box>
 			</Box>
 		</Skeleton>
 	);

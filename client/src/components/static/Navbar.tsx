@@ -1,15 +1,12 @@
 import {
 	Box,
 	Flex,
-	// Avatar,
-	// Text,
 	Button,
 	Menu,
 	MenuButton,
 	MenuList,
 	MenuItem,
 	MenuDivider,
-	// useDisclosure,
 	useColorModeValue,
 	Stack,
 	useColorMode,
@@ -24,32 +21,8 @@ import { RootState } from '../../store';
 import { toCapitalize } from '../../utils/toCapitalize';
 import Avatar from 'boring-avatars';
 
-//   interface Props {
-//     children: React.ReactNode
-//   }
-
-//   const NavLink = (props: Props) => {
-//     const { children } = props
-
-//     return (
-//       <Box
-//         as="a"
-//         px={2}
-//         py={1}
-//         rounded={'md'}
-//         _hover={{
-//           textDecoration: 'none',
-//           bg: useColorModeValue('gray.200', 'gray.700'),
-//         }}
-//         href={'#'}>
-//         {children}
-//       </Box>
-//     )
-//   }
-
 export default function Nav() {
 	const { colorMode, toggleColorMode } = useColorMode();
-	// const { isOpen, onOpen, onClose } = useDisclosure()
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -103,7 +76,13 @@ export default function Nav() {
 									</Center>
 									<br />
 									<MenuDivider />
-									<MenuItem>Account Settings</MenuItem>
+									<MenuItem
+										onClick={() => {
+											navigate('/settings');
+										}}
+									>
+										Account Settings
+									</MenuItem>
 									<MenuItem
 										onClick={() => {
 											localStorage.removeItem('auth');

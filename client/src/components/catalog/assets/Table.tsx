@@ -195,7 +195,7 @@ function Table({
 		});
 		const rows: any = [];
 
-		data.forEach((r: any) => {
+		data?.forEach((r: any) => {
 			Object.values(r).forEach((v) => {
 				rows.push(v);
 			});
@@ -230,7 +230,7 @@ function Table({
 	return (
 		<Box
 			className='tableContainer'
-			h={inHomepage ? '18rem' : 'calc(100vh - 220px)'}
+			h={inHomepage ? '20rem' : 'calc(100vh - 220px)'}
 			mt={inHomepage ? 0 : '1rem'}
 		>
 			<Box

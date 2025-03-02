@@ -153,6 +153,12 @@ function Links() {
 						}}
 						onClick={() => {
 							setSelectedLink(params.data);
+							setNewLink({
+								url: params.data.url,
+								label: params.data.label || '',
+								access: params.data.access,
+								allowed_emails: params.data.allowed_emails || [],
+							});
 							onOpen();
 						}}
 					/>
@@ -423,7 +429,9 @@ function Links() {
 											value={emailInput}
 											onChange={(e) => setEmailInput(e.target.value)}
 										/>
-										<Button onClick={addEmail}>Adauga</Button>
+										<Button onClick={addEmail} colorScheme='blue'>
+											Adauga
+										</Button>
 									</HStack>
 									<Box
 										mt={'1rem'}

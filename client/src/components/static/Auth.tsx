@@ -1,5 +1,4 @@
 import { Navigate } from 'react-router-dom';
-// import useAuth from "../../hooks/useAuth";
 import { useState, useEffect } from 'react';
 import { getUserData } from '../../api/getUserData';
 import { updateUserData } from '../../features/user';
@@ -11,8 +10,6 @@ function Auth({
 }: {
 	children: string | JSX.Element | JSX.Element[];
 }) {
-	// const {user} = useAuth();
-
 	const dispatch = useDispatch();
 	const toast = useToast();
 	const [user, setUser] = useState<Record<string, string> | null>(null);

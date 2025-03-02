@@ -1,0 +1,20 @@
+.ag-theme-quartz-dark {
+    --ag-background-color: rgba(255, 255, 255, 0.08) !important;
+    --ag-border-color: rgba(255, 255, 255, 0.04) !important; 
+}
+
+.ag-theme-quartz-dark .ag-header {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+
+@media (max-width: 994px) {
+    .firstRow {
+        flex-direction: column !important;
+    }
+
+    .catalogContainer, .notesLinksContainer {
+        width: 100% !important;
+    }
+}

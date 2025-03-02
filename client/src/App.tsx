@@ -21,7 +21,7 @@ import { RootState } from './store';
 import { useEffect } from 'react';
 import useWindowDimensions from './hooks/useWindowDimensions';
 import { GrCatalogOption } from 'react-icons/gr';
-import { IoIosLink } from 'react-icons/io';
+import { IoIosLink, IoMdSettings } from 'react-icons/io';
 import Catalog from './pages/Catalog';
 import Notes from './pages/Notes';
 import Note from './pages/Note';
@@ -34,6 +34,8 @@ import { FaUserSecret } from 'react-icons/fa';
 import Credentials from './pages/Credentials';
 import { updateUserData } from './features/user';
 import { MdLogout } from 'react-icons/md';
+import ChangePassword from './pages/ChangePassword';
+import Settings from './pages/Settings';
 
 function App() {
 	const { isOpen, onToggle, onClose } = useDisclosure({
@@ -129,8 +131,20 @@ function App() {
 								</Auth>
 							}
 						/>
+						<Route
+							path={'/settings'}
+							element={
+								<Auth>
+									<Settings />
+								</Auth>
+							}
+						/>
 						<Route path={'/register'} element={<Register />} />
 						<Route path={'/login'} element={<Login />} />
+						<Route
+							path={'/change-password/:ext/:id'}
+							element={<ChangePassword />}
+						/>
 					</Routes>
 				</AppShell>
 			) : (
@@ -216,16 +230,20 @@ function App() {
 										Credentiale
 									</NavItem>
 									<NavItem
+										icon={<IoMdSettings />}
+										onClick={() => {
+											navigate('/settings');
+										}}
+									>
+										Setari
+									</NavItem>
+									<NavItem
 										icon={<MdLogout />}
 										onClick={() => {
 											localStorage.removeItem('auth');
 											dispatch(updateUserData(null));
 											navigate('/login');
 										}}
-										// pos={'absolute'}
-										// bottom={'6px'}
-										// w={'255px'}
-										// maxW={'255px'}
 									>
 										Logout
 									</NavItem>
@@ -310,8 +328,20 @@ function App() {
 								</Auth>
 							}
 						/>
+						<Route
+							path={'/settings'}
+							element={
+								<Auth>
+									<Settings />
+								</Auth>
+							}
+						/>
 						<Route path={'/register'} element={<Register />} />
 						<Route path={'/login'} element={<Login />} />
+						<Route
+							path={'/change-password/:ext/:id'}
+							element={<ChangePassword />}
+						/>
 					</Routes>
 				</AppShell>
 			)}
