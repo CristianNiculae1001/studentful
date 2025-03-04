@@ -16,7 +16,6 @@ function Table({
 	setIsSuccessful?: React.Dispatch<React.SetStateAction<boolean>>;
 	inHomepage?: boolean;
 }) {
-	// const [catalogData, setCatalogData] = useState<Record<string, unknown>[]>([]);
 	const toast = useToast();
 	const { colorMode } = useColorMode();
 
@@ -143,56 +142,58 @@ function Table({
 		const response = await getCatalog(localStorage.getItem('auth') ?? '');
 		// setCatalogData(response);
 
-		const data = response?.data[0]?.data?.map((el: Record<string, any>) => {
-			const an = Object.keys(el);
-			const semesters = Object.values(el);
-			const sem1 = (semesters[0] as Record<string, any>)?.sem1;
-			const sem2 = (semesters[0] as Record<string, any>)?.sem2;
+		const data =
+			response?.data &&
+			response?.data[0]?.data?.map((el: Record<string, any>) => {
+				const an = Object.keys(el);
+				const semesters = Object.values(el);
+				const sem1 = (semesters[0] as Record<string, any>)?.sem1;
+				const sem2 = (semesters[0] as Record<string, any>)?.sem2;
 
-			const processedSem1: Record<string, any>[] = sem1?.map((s1: any) => {
-				return {
-					an,
-					id_1: s1?.id,
-					name_1: s1?.name,
-					grades_1: s1?.note?.join(','),
-					credits_1: s1?.credite,
-				};
-			});
+				const processedSem1: Record<string, any>[] = sem1?.map((s1: any) => {
+					return {
+						an,
+						id_1: s1?.id,
+						name_1: s1?.name,
+						grades_1: s1?.note?.join(','),
+						credits_1: s1?.credite,
+					};
+				});
 
-			const processedSem2: Record<string, any>[] = sem2?.map((s2: any) => {
-				return {
-					an,
-					id_2: s2?.id,
-					name_2: s2?.name,
-					grades_2: s2?.note?.join(','),
-					credits_2: s2?.credite,
-				};
-			});
+				const processedSem2: Record<string, any>[] = sem2?.map((s2: any) => {
+					return {
+						an,
+						id_2: s2?.id,
+						name_2: s2?.name,
+						grades_2: s2?.note?.join(','),
+						credits_2: s2?.credite,
+					};
+				});
 
-			const output = [];
+				const output = [];
 
-			for (
-				let i = 0;
-				i < Math.max(processedSem1.length, processedSem2.length);
-				i++
-			) {
-				if (processedSem1.length > processedSem2.length) {
-					let result = { ...processedSem1[i] };
-					if (processedSem2[i]) {
-						result = { ...result, ...processedSem2[i] };
+				for (
+					let i = 0;
+					i < Math.max(processedSem1.length, processedSem2.length);
+					i++
+				) {
+					if (processedSem1.length > processedSem2.length) {
+						let result = { ...processedSem1[i] };
+						if (processedSem2[i]) {
+							result = { ...result, ...processedSem2[i] };
+						}
+						output.push(result);
+					} else {
+						let result = { ...processedSem2[i] };
+						if (processedSem1[i]) {
+							result = { ...result, ...processedSem1[i] };
+						}
+						output.push(result);
 					}
-					output.push(result);
-				} else {
-					let result = { ...processedSem2[i] };
-					if (processedSem1[i]) {
-						result = { ...result, ...processedSem1[i] };
-					}
-					output.push(result);
 				}
-			}
 
-			return output;
-		});
+				return output;
+			});
 		const rows: any = [];
 
 		data?.forEach((r: any) => {

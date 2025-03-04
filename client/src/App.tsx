@@ -186,6 +186,7 @@ function App() {
 										onClick={() => {
 											navigate('/');
 										}}
+										cursor={'pointer'}
 									>
 										Homepage
 									</NavItem>
@@ -194,6 +195,7 @@ function App() {
 										onClick={() => {
 											navigate('/catalog');
 										}}
+										cursor={'pointer'}
 									>
 										Catalog
 									</NavItem>
@@ -202,6 +204,7 @@ function App() {
 										onClick={() => {
 											navigate('/notes');
 										}}
+										cursor={'pointer'}
 									>
 										Notite
 									</NavItem>
@@ -210,6 +213,7 @@ function App() {
 										onClick={() => {
 											navigate('/links');
 										}}
+										cursor={'pointer'}
 									>
 										Link-uri
 									</NavItem>
@@ -218,6 +222,7 @@ function App() {
 										onClick={() => {
 											navigate('/editor');
 										}}
+										cursor={'pointer'}
 									>
 										Editor
 									</NavItem>
@@ -226,6 +231,7 @@ function App() {
 										onClick={() => {
 											navigate('/credentials');
 										}}
+										cursor={'pointer'}
 									>
 										Credentiale
 									</NavItem>
@@ -234,6 +240,7 @@ function App() {
 										onClick={() => {
 											navigate('/settings');
 										}}
+										cursor={'pointer'}
 									>
 										Setari
 									</NavItem>
@@ -244,6 +251,7 @@ function App() {
 											dispatch(updateUserData(null));
 											navigate('/login');
 										}}
+										cursor={'pointer'}
 									>
 										Logout
 									</NavItem>

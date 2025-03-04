@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { getUserData } from '../../api/getUserData';
 import { updateUserData } from '../../features/user';
 import { useDispatch } from 'react-redux';
-import { useToast } from '@chakra-ui/react';
+import { Box, Spinner, useToast } from '@chakra-ui/react';
 
 function Auth({
 	children,
@@ -44,7 +44,22 @@ function Auth({
 	if (user === null && isLoading === false) {
 		return <Navigate to={'/login'} />;
 	} else {
-		return <>{children}</>;
+		return (
+			<>
+				{isLoading ? (
+					<Box
+						h={'86vh'}
+						display='flex'
+						alignItems='center'
+						justifyContent='center'
+					>
+						<Spinner w={'8rem'} h={'8rem'} thickness='6px' color='blue.400' />
+					</Box>
+				) : (
+					<>{children}</>
+				)}
+			</>
+		);
 	}
 }
 

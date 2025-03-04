@@ -29,7 +29,7 @@ function Link() {
 			});
 			return;
 		}
-		setLink(lastLink?.data[0]);
+		setLink(lastLink?.data && lastLink?.data[0]);
 		setLoading(false);
 	};
 

@@ -29,7 +29,7 @@ function Note() {
 			});
 			return;
 		}
-		setNote(lastNote?.data[0]);
+		setNote(lastNote?.data && lastNote?.data[0]);
 		setLoading(false);
 	};
 
