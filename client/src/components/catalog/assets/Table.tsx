@@ -30,14 +30,27 @@ function Table({
 				{
 					field: 'name_1',
 					headerName: 'Materie',
+					tooltipField: 'name_1',
 				},
 				{
 					field: 'grades_1',
 					headerName: 'Note',
+					tooltipField: 'grades_1',
+				},
+				{
+					field: 'puncte_1',
+					headerName: 'Puncte',
+					tooltipField: 'puncte_1',
 				},
 				{
 					field: 'credits_1',
 					headerName: 'Nr. Credite',
+					tooltipField: 'credits_1',
+				},
+				{
+					field: 'data_1',
+					headerName: 'Data',
+					tooltipField: 'data_1',
 				},
 			],
 		},
@@ -47,14 +60,27 @@ function Table({
 				{
 					field: 'name_2',
 					headerName: 'Materie',
+					tooltipField: 'name_2',
 				},
 				{
 					field: 'grades_2',
 					headerName: 'Note',
+					tooltipField: 'grades_2',
+				},
+				{
+					field: 'puncte_2',
+					headerName: 'Puncte',
+					tooltipField: 'puncte_2',
 				},
 				{
 					field: 'credits_2',
 					headerName: 'Nr. Credite',
+					tooltipField: 'credits_2',
+				},
+				{
+					field: 'data_2',
+					headerName: 'Data',
+					tooltipField: 'data_2',
 				},
 			],
 		},
@@ -72,15 +98,43 @@ function Table({
 		const updatedData: Record<
 			string,
 			{
-				sem1: { credite: number; id: string; name: string; note: number[] }[];
-				sem2: { credite: number; id: string; name: string; note: number[] }[];
+				sem1: {
+					credite: number;
+					id: string;
+					name: string;
+					note: number[];
+					puncte: number[] | null;
+					data: string;
+				}[];
+				sem2: {
+					credite: number;
+					id: string;
+					name: string;
+					note: number[];
+					puncte: number[] | null;
+					data: string;
+				}[];
 			}
 		>[] = [];
 		const groupedDataByAn: Record<
 			string,
 			{
-				sem1: { credite: number; id: string; name: string; note: number[] }[];
-				sem2: { credite: number; id: string; name: string; note: number[] }[];
+				sem1: {
+					credite: number;
+					id: string;
+					name: string;
+					note: number[];
+					puncte: number[] | null;
+					data: string;
+				}[];
+				sem2: {
+					credite: number;
+					id: string;
+					name: string;
+					note: number[];
+					puncte: number[] | null;
+					data: string;
+				}[];
 			}
 		> = {};
 		let iterator = event
@@ -96,12 +150,20 @@ function Table({
 				id: data?.id_1 as string,
 				name: data?.name_1 as string,
 				note: data?.grades_1?.split(',')?.map((e: string) => +e) as number[],
+				puncte: data?.puncte_1
+					? (data?.puncte_1?.split(',')?.map((e: string) => +e) as number[])
+					: null,
+				data: data?.data_1 as string,
 			};
 			const sem2 = {
 				credite: data?.credits_2 as number,
 				id: data?.id_2 as string,
 				name: data?.name_2 as string,
 				note: data?.grades_2?.split(',')?.map((e: string) => +e) as number[],
+				puncte: data?.puncte_2
+					? (data?.puncte_2?.split(',')?.map((e: string) => +e) as number[])
+					: null,
+				data: data?.data_2 as string,
 			};
 			if (!Object.values(sem1).every((e) => e === undefined)) {
 				groupedDataByAn[data?.an]?.sem1?.push(sem1);
@@ -157,6 +219,8 @@ function Table({
 						name_1: s1?.name,
 						grades_1: s1?.note?.join(','),
 						credits_1: s1?.credite,
+						puncte_1: s1?.puncte ? s1?.puncte?.join(',') : '',
+						data_1: s1?.data,
 					};
 				});
 
@@ -167,6 +231,8 @@ function Table({
 						name_2: s2?.name,
 						grades_2: s2?.note?.join(','),
 						credits_2: s2?.credite,
+						puncte_2: s2?.puncte ? s2?.puncte?.join(',') : '',
+						data_2: s2?.data,
 					};
 				});
 
@@ -248,6 +314,9 @@ function Table({
 					onCellValueChanged={handleCatalogUpdate}
 					onGridReady={onGridReady}
 					rowSelection={'single'}
+					animateRows={true}
+					tooltipShowDelay={0}
+					tooltipHideDelay={2000}
 				/>
 			</Box>
 		</Box>

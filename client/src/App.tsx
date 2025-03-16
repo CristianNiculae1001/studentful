@@ -30,12 +30,13 @@ import Link from './pages/Link';
 import Editor from './pages/Editor';
 import EditorList from './pages/EditorList';
 import EditorItem from './pages/EditorItem';
-import { FaUserSecret } from 'react-icons/fa';
+import { FaRegCalendarAlt, FaUserSecret } from 'react-icons/fa';
 import Credentials from './pages/Credentials';
 import { updateUserData } from './features/user';
 import { MdLogout } from 'react-icons/md';
 import ChangePassword from './pages/ChangePassword';
 import Settings from './pages/Settings';
+import Calendar from './pages/Calendar';
 
 function App() {
 	const { isOpen, onToggle, onClose } = useDisclosure({
@@ -128,6 +129,14 @@ function App() {
 							element={
 								<Auth>
 									<Credentials />
+								</Auth>
+							}
+						/>
+						<Route
+							path={'/calendar'}
+							element={
+								<Auth>
+									<Calendar />
 								</Auth>
 							}
 						/>
@@ -236,6 +245,15 @@ function App() {
 										Credentiale
 									</NavItem>
 									<NavItem
+										icon={<FaRegCalendarAlt />}
+										onClick={() => {
+											navigate('/calendar');
+										}}
+										cursor={'pointer'}
+									>
+										Calendar
+									</NavItem>
+									<NavItem
 										icon={<IoMdSettings />}
 										onClick={() => {
 											navigate('/settings');
@@ -333,6 +351,14 @@ function App() {
 							element={
 								<Auth>
 									<Credentials />
+								</Auth>
+							}
+						/>
+						<Route
+							path={'/calendar'}
+							element={
+								<Auth>
+									<Calendar />
 								</Auth>
 							}
 						/>

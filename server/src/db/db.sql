@@ -20,16 +20,19 @@ CREATE TABLE users (
 --                 {
 --                     name: "Materia 1",
 --                     note: [4,5,6],
+--                     puncte: [1,2,6], Maxim 10 puncte, fiecare punct corespunde unei note si reprezinta proportia notei din punctajul total
 --                     credite: 4,
 --                 },
 --                 {
 --                     name: "Materia 2",
 --                     note: [7,8,9],
+--                     puncte: null,
 --                     credite: null
 --                 },
 --                 {
 --                     name: "Materia 3",
 --                     note: [6, 9, 4],
+--                     puncte: null,
 --                     credite: 5
 --                 }
 --             ],
@@ -37,16 +40,19 @@ CREATE TABLE users (
 --                 {
 --                     name: "Materia 1",
 --                     note: [4,5,6],
+--                     puncte: null,
 --                     credite: 4,
 --                 },
 --                 {
 --                     name: "Materia 2",
 --                     note: [7,8,9],
+--                     puncte: null,
 --                     credite: null
 --                 },
 --                 {
 --                     name: "Materia 3",
 --                     note: [6, 9, 4],
+--                     puncte: null,
 --                     credite: 5
 --                 }
 --             ],
@@ -115,6 +121,17 @@ CREATE TABLE credentials (
     password VARCHAR NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE events (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NULL,
+    start TIMESTAMPTZ NOT NULL,
+    "end" TIMESTAMPTZ NOT NULL,
+    all_day BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- https://dev.to/rone/how-to-build-a-password-manager-with-nodejs-part-1-34i5 - password manager

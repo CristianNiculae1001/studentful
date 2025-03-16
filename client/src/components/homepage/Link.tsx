@@ -63,6 +63,7 @@ function Link() {
 						display={'flex'}
 						flexDir={'column'}
 						gap={'1rem'}
+						textAlign={'center'}
 					>
 						<Text fontSize={'16px'} fontWeight={600} mb={'8px'}>
 							<a href={generatedUrl} target='_blank'>

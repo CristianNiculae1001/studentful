@@ -87,7 +87,7 @@ function Stats() {
 			{Object.keys(stats).length > 0 ? (
 				<>
 					<Box>
-						<SimpleGrid columns={{ base: 1, md: 3, lg: 3 }} spacing={5}>
+						<SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={5}>
 							<StatCard
 								title='Total Materii'
 								value={stats?.totalSubjects || 0}
@@ -95,6 +95,10 @@ function Stats() {
 							<StatCard
 								title='Total Credite'
 								value={stats?.totalCredits || 0}
+							/>
+							<StatCard
+								title='Total Credite Stranse'
+								value={stats?.totalEarnedCredits || 0}
 							/>
 							<StatCard
 								title='Media Generală'

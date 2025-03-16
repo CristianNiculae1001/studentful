@@ -8,6 +8,7 @@ import links from './links/index';
 import editor from './editor/index';
 import credentials from './credentials/index';
 import homepage from './homepage/index';
+import calendar from './calendar/index';
 
 export {
     init,
@@ -20,4 +21,5 @@ export {
     editor,
     credentials,
     homepage,
+    calendar,
 };

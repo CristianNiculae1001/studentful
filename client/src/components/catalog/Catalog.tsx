@@ -27,7 +27,9 @@ type Semester = {
 	id: string;
 	name: string;
 	note: number[];
+	puncte: number[] | null;
 	credite: number | null;
+	data: string;
 };
 
 function Catalog() {
@@ -47,10 +49,80 @@ function Catalog() {
 
 	const [isSuccessful, setIsSuccessful] = useState(false);
 
+	const verifyDataCondition = (e: Semester) => {
+		if (e.puncte) {
+			if (e.puncte.length !== e.note.length) {
+				toast({
+					title: 'Error',
+					description: 'Numarul de puncte si note nu corespund',
+					status: 'error',
+					isClosable: true,
+					duration: 2000,
+					position: 'top-right',
+				});
+				setIsSuccessful(false);
+				return false;
+			}
+			if (e.puncte.some((e) => e < 1 || e > 10)) {
+				toast({
+					title: 'Error',
+					description: 'Punctele trebuie sa fie intre 1 si 10',
+					status: 'error',
+					isClosable: true,
+					duration: 2000,
+					position: 'top-right',
+				});
+				setIsSuccessful(false);
+				return false;
+			}
+			if (e.puncte.some((e) => isNaN(e))) {
+				toast({
+					title: 'Error',
+					description: 'Punctele trebuie sa fie numere',
+					status: 'error',
+					isClosable: true,
+					duration: 2000,
+					position: 'top-right',
+				});
+				setIsSuccessful(false);
+				return false;
+			}
+			if (e.puncte.reduce((a, b) => a + b, 0) !== 10) {
+				toast({
+					title: 'Error',
+					description: 'Suma punctelor trebuie sa fie 10',
+					status: 'error',
+					isClosable: true,
+					duration: 2000,
+					position: 'top-right',
+				});
+				setIsSuccessful(false);
+				return false;
+			}
+		}
+		return true;
+	};
+
 	const handleAddCatalogData = async () => {
 		const catalogData = {
-			[anLabel]: { ...sem1Data, ...sem2Data },
+			[anLabel]: { ...sem1Data, ...sem2Data, created_at: new Date(Date.now()) },
 		};
+		let isVerifiedData = true;
+		for (let i = 0; i < sem1Data.sem1.length; i++) {
+			isVerifiedData = verifyDataCondition(sem1Data.sem1[i]);
+			if (!isVerifiedData) {
+				break;
+			}
+		}
+		for (let i = 0; i < sem2Data.sem2.length; i++) {
+			isVerifiedData = verifyDataCondition(sem2Data.sem2[i]);
+			if (!isVerifiedData) {
+				break;
+			}
+		}
+		if (!isVerifiedData) {
+			return;
+		}
 		const catalog = await addCatalog(
 			localStorage.getItem('auth') ?? '',
 			catalogData
@@ -95,7 +167,7 @@ function Catalog() {
 
 			<Table isSuccessful={isSuccessful} setIsSuccessful={setIsSuccessful} />
 
-			<Drawer isOpen={isOpen} placement='right' onClose={onClose} size={'md'}>
+			<Drawer isOpen={isOpen} placement='right' onClose={onClose} size={'xl'}>
 				<DrawerOverlay />
 				<DrawerContent>
 					<DrawerCloseButton />
@@ -105,7 +177,7 @@ function Catalog() {
 						<FormControl isRequired mb={'1rem'}>
 							<FormLabel>An</FormLabel>
 							<Input
-								type={'text'}
+								type={'search'}
 								placeholder='Anul 1'
 								onChange={(e) => setAnLabel(e.target.value)}
 								value={anLabel}
@@ -135,6 +207,8 @@ function Catalog() {
 															name: '',
 															note: [],
 															credite: null,
+															puncte: null,
+															data: new Date().toISOString().split('T')[0],
 														},
 													],
 												};
@@ -151,7 +225,7 @@ function Catalog() {
 										<FormControl isRequired>
 											<FormLabel>Materie</FormLabel>
 											<Input
-												type={'text'}
+												type={'search'}
 												onChange={(e) => {
 													setSem1Data((prev) => {
 														const updatedElement = prev.sem1.map((el) => {
@@ -178,7 +252,7 @@ function Catalog() {
 										<FormControl isRequired>
 											<FormLabel>Note</FormLabel>
 											<Input
-												type={'text'}
+												type={'search'}
 												onChange={(e) => {
 													setSem1Data((prev) => {
 														const updatedElement = prev.sem1.map((el) => {
@@ -200,6 +274,34 @@ function Catalog() {
 												}}
 												value={element.note.join(',')}
 												placeholder='6,7,8,10'
+											/>
+										</FormControl>
+
+										<FormControl>
+											<FormLabel whiteSpace={'nowrap'}>Puncte / Nota</FormLabel>
+											<Input
+												type={'search'}
+												onChange={(e) => {
+													setSem1Data((prev) => {
+														const updatedElement = prev.sem1.map((el) => {
+															if (el.id === element.id) {
+																return {
+																	...el,
+																	puncte: e.target.value
+																		.split(',')
+																		.map((e) => +e),
+																};
+															} else {
+																return el;
+															}
+														});
+														return {
+															sem1: updatedElement,
+														};
+													});
+												}}
+												value={element.puncte ? element.puncte.join(',') : ''}
+												placeholder='3,1,4,2'
 											/>
 										</FormControl>
 
@@ -230,6 +332,32 @@ function Catalog() {
 												}}
 												value={element.credite ?? 0}
 												placeholder='4'
+											/>
+										</FormControl>
+
+										<FormControl>
+											<FormLabel>Data</FormLabel>
+											<Input
+												type={'date'}
+												maxW={'10rem'}
+												onChange={(e) => {
+													setSem1Data((prev) => {
+														const updatedElement = prev.sem1.map((el) => {
+															if (el.id === element.id) {
+																return {
+																	...el,
+																	data: e.target.value,
+																};
+															} else {
+																return el;
+															}
+														});
+														return {
+															sem1: updatedElement,
+														};
+													});
+												}}
+												value={element.data ?? 0}
 											/>
 										</FormControl>
 
@@ -280,6 +408,8 @@ function Catalog() {
 															name: '',
 															note: [],
 															credite: null,
+															puncte: null,
+															data: new Date().toISOString().split('T')[0],
 														},
 													],
 												};
@@ -296,7 +426,7 @@ function Catalog() {
 										<FormControl isRequired>
 											<FormLabel>Materie</FormLabel>
 											<Input
-												type={'text'}
+												type={'search'}
 												onChange={(e) => {
 													setSem2Data((prev) => {
 														const updatedElement = prev.sem2.map((el) => {
@@ -323,7 +453,7 @@ function Catalog() {
 										<FormControl isRequired>
 											<FormLabel>Note</FormLabel>
 											<Input
-												type={'text'}
+												type={'search'}
 												onChange={(e) => {
 													setSem2Data((prev) => {
 														const updatedElement = prev.sem2.map((el) => {
@@ -345,6 +475,34 @@ function Catalog() {
 												}}
 												value={element.note.join(',')}
 												placeholder='6,7,8,10'
+											/>
+										</FormControl>
+
+										<FormControl>
+											<FormLabel whiteSpace={'nowrap'}>Puncte / Nota</FormLabel>
+											<Input
+												type={'search'}
+												onChange={(e) => {
+													setSem2Data((prev) => {
+														const updatedElement = prev.sem2.map((el) => {
+															if (el.id === element.id) {
+																return {
+																	...el,
+																	puncte: e.target.value
+																		.split(',')
+																		.map((e) => +e),
+																};
+															} else {
+																return el;
+															}
+														});
+														return {
+															sem2: updatedElement,
+														};
+													});
+												}}
+												value={element.puncte ? element.puncte.join(',') : ''}
+												placeholder='3,1,4,2'
 											/>
 										</FormControl>
 
@@ -378,6 +536,32 @@ function Catalog() {
 											/>
 										</FormControl>
 
+										<FormControl>
+											<FormLabel>Data</FormLabel>
+											<Input
+												type={'date'}
+												maxW={'10rem'}
+												onChange={(e) => {
+													setSem2Data((prev) => {
+														const updatedElement = prev.sem2.map((el) => {
+															if (el.id === element.id) {
+																return {
+																	...el,
+																	data: e.target.value,
+																};
+															} else {
+																return el;
+															}
+														});
+														return {
+															sem2: updatedElement,
+														};
+													});
+												}}
+												value={element.data ?? 0}
+											/>
+										</FormControl>
+
 										<Box mt={'1.5rem'}>
 											<IconButton
 												icon={<IoRemoveOutline />}
@@ -408,13 +592,7 @@ function Catalog() {
 						</Button>
 						<Button
 							colorScheme='blue'
-							isDisabled={
-								anLabel.length === 0 ||
-								sem1Data.sem1.length === 0 ||
-								sem2Data.sem2.length === 0 ||
-								sem1Data.sem1.map((e) => e.name).some((e) => e.length === 0) ||
-								sem2Data.sem2.map((e) => e.name).some((e) => e.length === 0)
-							}
+							isDisabled={anLabel.length === 0}
 							onClick={handleAddCatalogData}
 						>
 							Save
