@@ -75,6 +75,8 @@ const CalendarComponent: React.FC = () => {
 
 	const handleSelect = useCallback((info: any) => {
 		setInfo(info);
+		setTitle('');
+		setDescription('');
 		onOpen();
 	}, []);
 

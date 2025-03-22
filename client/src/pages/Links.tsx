@@ -27,6 +27,7 @@ import {
 	InputGroup,
 	InputLeftAddon,
 	InputLeftElement,
+	useToast,
 } from '@chakra-ui/react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -49,6 +50,7 @@ interface Link {
 
 function Links() {
 	const { colorMode } = useColorMode();
+	const toast = useToast();
 	const [links, setLinks] = useState<Link[]>([]);
 	const [filteredLinks, setFilteredLinks] = useState<Link[]>([]);
 	const [searchInput, setSearchInput] = useState<string>('');
@@ -151,6 +153,9 @@ function Links() {
 						_hover={{
 							color: 'blue.800',
 						}}
+						isDisabled={
+							params?.data?.isInvited && params?.data?.isInvited === true
+						}
 						onClick={() => {
 							setSelectedLink(params.data);
 							setNewLink({
@@ -190,7 +195,7 @@ function Links() {
 
 	const addNewLink = async (): Promise<void> => {
 		try {
-			await fetch(API_URL, {
+			const response = await fetch(API_URL, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -198,11 +203,32 @@ function Links() {
 				},
 				body: JSON.stringify({ ...newLink, url: `https://${newLink.url}` }),
 			});
+			const data = await response.json();
+			if (data.status === 0) {
+				toast({
+					title: 'Error',
+					status: 'error',
+					description: data.message,
+					isClosable: true,
+				});
+				return;
+			}
+			toast({
+				title: 'Success',
+				status: 'success',
+				description: 'Link adaugat cu succes',
+				isClosable: true,
+			});
 			fetchLinks();
 			onAddClose();
 			setNewLink({ url: '', label: '', access: 'private', allowed_emails: [] });
 		} catch (error) {
-			console.error('Eroare la adăugarea link-ului:', error);
+			toast({
+				title: 'Error',
+				status: 'error',
+				description: 'Eroare la adaugarea link-ului',
+				isClosable: true,
+			});
 		}
 	};
 
@@ -223,7 +249,12 @@ function Links() {
 			fetchLinks();
 			onClose();
 		} catch (error) {
-			console.error('Eroare la editarea link-ului:', error);
+			toast({
+				title: 'Error',
+				status: 'error',
+				description: 'Eroare la editarea link-ului',
+				isClosable: true,
+			});
 		}
 	};
 
@@ -239,7 +270,12 @@ function Links() {
 			fetchLinks();
 			onClose();
 		} catch (error) {
-			console.error('Eroare la ștergerea link-ului:', error);
+			toast({
+				title: 'Error',
+				status: 'error',
+				description: 'Eroare la stergerea link-ului',
+				isClosable: true,
+			});
 		}
 	};
 
@@ -275,7 +311,19 @@ function Links() {
 						<option value='restricted'>Restrictionat</option>
 					</Select>
 				</Box>
-				<Button leftIcon={<FiPlus />} colorScheme='blue' onClick={onAddOpen}>
+				<Button
+					leftIcon={<FiPlus />}
+					colorScheme='blue'
+					onClick={() => {
+						setNewLink({
+							url: '',
+							label: '',
+							access: 'private',
+							allowed_emails: [],
+						});
+						onAddOpen();
+					}}
+				>
 					Adauga Link
 				</Button>
 			</Box>

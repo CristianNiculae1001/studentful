@@ -6,11 +6,19 @@ const generateShortLabel = () => crypto.randomBytes(3).toString('hex');
 
 export const createLink = async (payload: Record<string, unknown>) => {
     try {
-        const { user_id, title, url, label, access, allowed_emails } = payload;
+        const { user_id, url, label, access, allowed_emails } = payload;
 
         let shortLabel = label;
         if (access === 'public') {
             shortLabel = generateShortLabel();
+        }
+
+        const existingRestrictedLinkAccess = await db('link_access').select('link_id').where({guest_id: user_id});
+        if(existingRestrictedLinkAccess.length) {
+            const existingLink = await db('link').where({ id: existingRestrictedLinkAccess[0].link_id, label });
+            if(existingLink.length) {
+                return { status: 0, message: "Nu poti crea link cu acelasi label ca cel la care esti invitat." };
+            }
         }
 
         const [link] = await db('link')
@@ -42,15 +50,29 @@ export const getAllLinks = async (user_id: number) => {
     try {
         const links = await db('link').where({ user_id }).select('*');
 
-        const restrictedLinks = links.filter(link => link.access === 'restricted');
-        const restrictedIds = restrictedLinks.map(link => link.id);
+        const restrictedLinkIds = await db('link_access').select('link_id').where({guest_id: user_id});
+        const restrictedIds = restrictedLinkIds.map(link => link.link_id);
+
+        const restrictedLinks: Record<string, unknown>[] = [];
+
+        for(const id of restrictedIds) {
+            const link = await db('link').where({ id }).first();
+            const processedLink = {
+                ...link,
+                isInvited: true,
+            }
+            restrictedLinks.push(processedLink);
+        }
+
+        const rLinks = links.filter(link => link.access === 'restricted');
+        const rIds = rLinks.map(link => link.id);
 
         let emailMapping: Record<number, string[]> = {};
 
-        if (restrictedIds.length > 0) {
+        if (rIds.length > 0) {
             const emails = await db('link_access')
                 .join('users', 'users.id', '=', 'link_access.guest_id')
-                .whereIn('link_id', restrictedIds)
+                .whereIn('link_id', rIds)
                 .select('link_access.link_id', 'users.email');
 
             emailMapping = emails.reduce((acc, entry) => {
@@ -67,7 +89,7 @@ export const getAllLinks = async (user_id: number) => {
             allowed_emails: link.access === 'restricted' ? emailMapping[link.id] || [] : undefined,
         }));
 
-        return { status: 1, data: enrichedLinks };
+        return { status: 1, data: [...enrichedLinks, ...restrictedLinks] };
     } catch (error) {
         logger.error(error);
         return { status: 0, message: "Eroare la obținerea link-urilor" };
@@ -154,7 +176,7 @@ export const redirectLink = async (label: string, user_id?: number) => {
         }
 
         if (link.access === 'private' && link.user_id !== user_id) {
-            return { status: 0, message: "Acces restricționat" };
+            return { status: 0, message: "Acces restrictionat" };
         }
 
         if (link.access === 'restricted') {
@@ -165,7 +187,7 @@ export const redirectLink = async (label: string, user_id?: number) => {
                 .first();
 
             if (!hasAccess) {
-                return { status: 0, message: "Acces restricționat" };
+                return { status: 0, message: "Acces restrictionat" };
             }
         }
 

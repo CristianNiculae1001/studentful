@@ -43,7 +43,7 @@ function ForgotPassword({ onClose }: { onClose: () => void }) {
 		<>
 			<ModalBody pb={6}>
 				<FormControl isRequired>
-					<FormLabel>Email Address</FormLabel>
+					<FormLabel>Email</FormLabel>
 					<Input
 						type={'email'}
 						value={email}
